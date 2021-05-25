@@ -1,30 +1,27 @@
 package banksystemproject;
  
 public class CurrentAccount {
-    public int number;
-    public double totalAmount;
-    public double limitAmount = 300000000;//300 Millions
-    public String agency;
-    public String ownersName;
-    public String ownersIdentification;//In our case, CPF or CNPJ
+    private int number;
+    private double currentAmount,limitAmount = 300000000;//300 Millions
+    private String agency,ownersName,ownersIdentification;//In our case, CPF or CNPJ
     
     public CurrentAccount(){}
     
     public boolean withDraw(double quant){//to get money
-        if(this.totalAmount<quant||quant<=0) return false; 
-        this.totalAmount -= quant;
+        if(this.currentAmount<quant||quant<=0) return false; 
+        this.currentAmount -= quant;
         return true;
     }
     
     public boolean deposit(double quant){
-        if(this.totalAmount+quant>this.limitAmount||quant<=0) return false;
-        this.totalAmount += quant;
+        if(this.currentAmount+quant>this.limitAmount||quant<=0) return false;
+        this.currentAmount += quant;
         return true;
     }
     
     public boolean transfer(CurrentAccount targetAccount,double quant){
         boolean verify;
-        if(this.totalAmount<quant) return false;
+        if(this.currentAmount<quant) return false;
         verify = targetAccount.deposit(quant);
         if(verify) {
             this.withDraw(quant);
@@ -32,4 +29,16 @@ public class CurrentAccount {
         }
         return false;
     }
+    
+    public int getNumber(){return this.number;}
+    
+    public double getCurrentAmount(){return this.currentAmount;}
+    
+    public double getLimitAmount(){return this.limitAmount;}
+    
+    public String getAgency(){return this.agency;}
+    
+    public String getOwnersName(){return this.ownersName;}
+    
+    public String getOwnersIdentification(){return this.ownersIdentification;}
 }
