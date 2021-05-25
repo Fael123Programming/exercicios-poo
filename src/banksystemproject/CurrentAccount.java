@@ -2,10 +2,18 @@ package banksystemproject;
  
 public class CurrentAccount {
     private int number;
-    private double currentAmount,limitAmount = 300000000;//300 Millions
+    private double currentAmount,limitAmount=300000000;//300 Millions
     private String agency,ownersName,ownersIdentification;//In our case, CPF or CNPJ
     
     public CurrentAccount(){}
+    
+    public CurrentAccount(int nb,double ca,String ag,String ow,String oi){
+        this.number=nb;
+        this.currentAmount=ca;
+        this.agency=ag;
+        this.ownersName=ow;
+        this.ownersIdentification=oi;
+    }
     
     public boolean withDraw(double quant){//to get money
         if(this.currentAmount<quant||quant<=0) return false; 
