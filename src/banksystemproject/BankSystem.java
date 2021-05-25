@@ -7,6 +7,8 @@ public class BankSystem {
         Scanner input = new Scanner(System.in);
         CurrentAccount mine = new CurrentAccount();
         CurrentAccount yours = new CurrentAccount();
+   
+        System.out.println("Accounts created so far: "+mine.getNumberOfAccounts());
         mine.deposit(100);
         System.out.println("mine's current amount: $"+mine.getCurrentAmount());//mine has $100
         mine.withDraw(101);//It will not happen

@@ -1,11 +1,13 @@
 package banksystemproject;
  
 public class CurrentAccount {
+    private static int numberOfAccounts=0;
     private int number;
     private double currentAmount,limitAmount=300000000;//300 Millions
     private String agency,ownersName,ownersIdentification;//In our case, CPF or CNPJ
     
-    public CurrentAccount(){}
+    
+    public CurrentAccount(){CurrentAccount.numberOfAccounts++;}
     
     public CurrentAccount(int nb,double ca,String ag,String ow,String oi){
         this.number=nb;
@@ -13,6 +15,7 @@ public class CurrentAccount {
         this.agency=ag;
         this.ownersName=ow;
         this.ownersIdentification=oi;
+        CurrentAccount.numberOfAccounts++;
     }
     
     public boolean withDraw(double quant){//to get money
@@ -49,4 +52,6 @@ public class CurrentAccount {
     public String getOwnersName(){return this.ownersName;}
     
     public String getOwnersIdentification(){return this.ownersIdentification;}
+    
+    public int getNumberOfAccounts(){return CurrentAccount.numberOfAccounts;}
 }
