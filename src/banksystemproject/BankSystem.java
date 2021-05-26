@@ -27,6 +27,8 @@ public class BankSystem {
         mine.transfer(yours,1300);//Ok, there's no problem
         System.out.println("mine's current amount: $"+mine.getCurrentAmount());//mine has $50
         System.out.println("your's current amount: $"+yours.getCurrentAmount());//yours has $1500
+    
+        System.out.println(mine.getLimitAmount());
     }
     
 }

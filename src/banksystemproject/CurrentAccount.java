@@ -3,7 +3,7 @@ package banksystemproject;
 public class CurrentAccount {
     private static int numberOfAccounts=0;
     private int number;
-    private double currentAmount,limitAmount=300000000;//300 Millions
+    private double currentAmount,limitAmount=Double.MAX_VALUE;
     private String agency,ownersName,ownersIdentification;//In our case, CPF or CNPJ
     
     

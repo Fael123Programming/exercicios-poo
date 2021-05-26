@@ -6,5 +6,6 @@ public class Ex01{
 		Scanner input = new Scanner(System.in);
 		Price prices = new Price(input.nextFloat(),input.nextFloat());
 		System.out.println(prices.whatIsBetter());
+                input.close();
 	}
 }

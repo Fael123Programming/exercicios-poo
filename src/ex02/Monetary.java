@@ -30,4 +30,14 @@ public class Monetary{
             }
             return String.format("%d %d %d %d%n",fiftyQuant,tenQuant,fiveQuant,oneQuant);
 	}
+        
+        public String getNotesEasier(){
+            int usableAmount=this.amount,fiftyQuant=0,tenQuant=0,fiveQuant=0,
+                    oneQuant=0;
+            fiftyQuant=usableAmount/50;
+            tenQuant=usableAmount%50/10;
+            fiveQuant=usableAmount%50%10/5;
+            oneQuant=usableAmount%50%10%5;
+            return String.format("%d %d %d %d%n",fiftyQuant,tenQuant,fiveQuant,oneQuant);
+        }
 }
