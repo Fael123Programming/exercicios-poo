@@ -28,7 +28,6 @@ public class BankSystem {
         System.out.println("mine's current amount: $"+mine.getCurrentAmount());//mine has $50
         System.out.println("your's current amount: $"+yours.getCurrentAmount());//yours has $1500
     
-        System.out.println(mine.getLimitAmount());
     }
     
 }

@@ -7,6 +7,5 @@ public class Ex02{
             System.out.print("R$ ");
             Monetary mn = new Monetary(input.nextInt());
             System.out.println(mn.getQuantitiesOfNotes());
-            input.close();
 	}
 }
