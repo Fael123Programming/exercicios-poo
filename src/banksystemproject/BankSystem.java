@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 
 public class BankSystem {
     private static ArrayList<Account> accounts=new ArrayList();
+    
     //Main function
     public static void main(String[] args) {
         while(true){
@@ -29,6 +30,7 @@ public class BankSystem {
             }
         }
     }
+    
     //Auxiliary functions
     public static int menu(String options){return BankSystem.inputDialogForIntegerNumber(options);}
     
