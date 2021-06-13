@@ -4,20 +4,21 @@ public class Account implements Comparable<Account>{
     private static int numberOfAccounts=0;
     private int accountNumber;
     private double currentAmount,limitAmount;
-    private String agency,ownerName,ownerIdentification;//In our case, CPF or CNPJ
+    private String agency;
+    private AccountOwner owner;
     
     public Account(){//Empty constructor function
         Account.numberOfAccounts++;
     }
     
-    public Account(String ownerName,int accountNumber){
-        this.ownerName=ownerName;
+    public Account(AccountOwner owner,int accountNumber){
+        this.owner=owner;
         this.accountNumber=accountNumber;
         Account.numberOfAccounts++;
     }
-    public Account(String ownerName,String ownerIdentification,int accountNumber,String agency){
-        this(ownerName,accountNumber);//It calls the constructor function above
-        this.ownerIdentification=ownerIdentification;
+    
+    public Account(AccountOwner owner,int accountNumber,String agency){
+        this(owner,accountNumber);//It calls the constructor function above
         this.agency=agency;
         this.currentAmount=0;
         this.limitAmount=300000000;//300 millions is the limit
@@ -55,22 +56,18 @@ public class Account implements Comparable<Account>{
     
     public String getAgency(){return this.agency;}
     
-    public String getOwnerName(){return this.ownerName;}
-    
-    public String getOwnerIdentification(){return this.ownerIdentification;}
-    
     @Override
     public String toString(){
-        return String.format("<<< Nome do titular: %s  Numero da conta: %d"
-                + "     Identificacao legal do titular: %s     Saldo atual: %.2f"
-                + "     Agencia: %s >>>",this.ownerName,this.accountNumber,
-                this.ownerIdentification,this.currentAmount,this.agency);
+        return String.format("Nome do titular: %s          Numero da conta: %d"
+                + "%nIdentificacao legal do titular: %s          Saldo atual: R$%.2f"
+                + "%nAgencia: %s",this.owner.getName(),this.accountNumber,
+                this.owner.getIdentification(),this.currentAmount,this.agency);
     }
     
     @Override
-    public int compareTo(Account accountToCompareWith){//It sorts from less account's number to greater ones
-        if(this.accountNumber>accountToCompareWith.getAccountNumber()) return 1;
-        else if(this.accountNumber<accountToCompareWith.getAccountNumber()) return -1;
+    public int compareTo(Account accountToCompareWith){//It sorts from greater amounts to less ones
+        if(this.currentAmount>accountToCompareWith.getCurrentAmount()) return -1;
+        else if(this.currentAmount<accountToCompareWith.getCurrentAmount()) return 1;
         return 0;
     }
 }
