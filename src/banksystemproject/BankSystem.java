@@ -2,10 +2,11 @@ package banksystemproject;
 
 import java.util.Collections;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class BankSystem {
-    private static ArrayList<Account> accounts=new ArrayList();
+    private static List<Account> accounts=new ArrayList<>();
     
     //Main function
     public static void main(String[] args) {
