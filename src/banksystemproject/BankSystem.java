@@ -10,7 +10,7 @@ public class BankSystem {
     //Main function
     public static void main(String[] args) {
         while(true){
-            switch(menu("<<<<< Sistema de Banco 1.0.0 >>>>>\n1. Criar nova conta\n2. Exibir informacoes de uma conta\n"
+            switch(BankSystem.menu("<<<<< Sistema de Banco 1.0.0 >>>>>\n1. Criar nova conta\n2. Exibir informacoes de uma conta\n"
                     + "3. Movimentar conta\n4. Tabela de contas criadas\n5. Sair do sistema")){
                 case 1:
                     BankSystem.createAccount();
@@ -101,9 +101,8 @@ public class BankSystem {
             return;
         }
         while(true){
-            int option=BankSystem.menu("<<<<< Movimentar conta >>>>>\n1. Sacar quantia\n2. Depositar quantia\n"
-                    + "3. Transferir de uma conta para outra\n4. Voltar ao menu principal");
-            switch(option){
+            switch(BankSystem.menu("<<<<< Movimentar conta >>>>>\n1. Sacar quantia\n2. Depositar quantia\n"
+                    + "3. Transferir de uma conta para outra\n4. Voltar ao menu principal")){
                 case 1:
                     BankSystem.withDrawMoneyOfAnAccount();
                     break;
