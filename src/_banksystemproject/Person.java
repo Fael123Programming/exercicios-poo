@@ -1,9 +1,9 @@
 package _banksystemproject;
-public class AccountOwner {
+public class Person {
     private String name;
     private String identification;//In our case, CPF or CNPJ
     
-    public AccountOwner(String name,String ident){
+    public Person(String name,String ident){
         this.name=name;
         this.identification=ident;
     }

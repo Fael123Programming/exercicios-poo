@@ -5,19 +5,19 @@ public class Account implements Comparable<Account>{
     private int accountNumber;
     private double currentAmount,limitAmount;
     private String agency;
-    private AccountOwner owner;
+    private Person owner;
     
     public Account(){//Empty constructor function
         Account.numberOfAccounts++;
     }
     
-    public Account(AccountOwner owner,int accountNumber){
+    public Account(Person owner,int accountNumber){
         this.owner=owner;
         this.accountNumber=accountNumber;
         Account.numberOfAccounts++;
     }
     
-    public Account(AccountOwner owner,int accountNumber,String agency){
+    public Account(Person owner,int accountNumber,String agency){
         this(owner,accountNumber);//It calls the constructor function above
         this.agency=agency;
         this.currentAmount=0;
@@ -50,7 +50,7 @@ public class Account implements Comparable<Account>{
     
     public int getAccountNumber(){return this.accountNumber;}
     
-    public AccountOwner getAccountOwner(){return this.owner;}
+    public Person getAccountOwner(){return this.owner;}
     
     public double getCurrentAmount(){return this.currentAmount;}
     

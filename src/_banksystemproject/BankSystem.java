@@ -68,7 +68,7 @@ public class BankSystem {
         int accountNumber;
         ownerName=BankSystem.inputDialog("<<<<< Criar nova conta >>>>>\nInsira o nome do titular");
         ownerIdentification=BankSystem.inputDialog("<<<<< Criar nova conta >>>>>\nInsira a identificacao legal do titular (CPF or CNPJ)");
-        AccountOwner owner=new AccountOwner(ownerName,ownerIdentification);
+        Person owner=new Person(ownerName,ownerIdentification);
         agency=BankSystem.inputDialog("<<<<< Criar nova conta >>>>>\nDigite o codigo da agencia");
         accountNumber=BankSystem.generateAccountNumber(1000,2000);//Between this range: 1000 and 2000
         BankSystem.accounts.add(new Account(owner,accountNumber,agency));
