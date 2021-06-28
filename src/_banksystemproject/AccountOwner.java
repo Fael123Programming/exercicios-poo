@@ -1,4 +1,4 @@
-package banksystemproject;
+package _banksystemproject;
 public class AccountOwner {
     private String name;
     private String identification;//In our case, CPF or CNPJ

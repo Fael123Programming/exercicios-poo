@@ -1,4 +1,4 @@
-package banksystemproject;
+package _banksystemproject;
  
 public class Account implements Comparable<Account>{
     private static int numberOfAccounts=0;
@@ -49,6 +49,8 @@ public class Account implements Comparable<Account>{
     public static int getNumberOfAccounts(){return Account.numberOfAccounts;}
     
     public int getAccountNumber(){return this.accountNumber;}
+    
+    public AccountOwner getAccountOwner(){return this.owner;}
     
     public double getCurrentAmount(){return this.currentAmount;}
     

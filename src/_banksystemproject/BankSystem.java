@@ -1,4 +1,4 @@
-package banksystemproject;
+package _banksystemproject;
 
 import java.util.Collections;
 import java.util.ArrayList;
@@ -9,10 +9,11 @@ public class BankSystem {
     private static List<Account> accounts=new ArrayList<>();
     
     //Main function
-    public static void main(String[] args) {
+    public static void main(String[] args){
         while(true){
-            switch(BankSystem.menu("<<<<< Sistema de Banco 1.0.0 >>>>>\n1. Criar nova conta\n2. Exibir informacoes de uma conta\n"
-                    + "3. Movimentar conta\n4. Tabela de contas criadas\n5. Sair do sistema")){
+            switch(BankSystem.menu("<<<<< Sistema de Banco 1.0.0 >>>>>\n1. Criar nova conta\n"
+                    + "2. Exibir informacoes de uma conta\n3. Movimentar conta\n4. Tabela de "
+                    + "contas criadas\n5. Sair do sistema")){
                 case 1:
                     BankSystem.createAccount();
                     break;
@@ -33,22 +34,22 @@ public class BankSystem {
     }
     
     //Auxiliary functions
-    public static int menu(String options){return BankSystem.inputDialogForIntegerNumber(options);}
+    private static int menu(String options){return BankSystem.inputDialogForIntegerNumber(options);}
     
-    public static void exit(){
+    private static void exit(){
         BankSystem.showMessage("<<<<< Sessao finalizada! >>>>>");
         System.exit(0);
     }
     
-    public static void showMessage(String msg){JOptionPane.showMessageDialog(null,msg);}
+    private static void showMessage(String msg){JOptionPane.showMessageDialog(null,msg);}
     
-    public static int inputDialogForIntegerNumber(String msg){return Integer.parseInt(BankSystem.inputDialog(msg));}
+    private static int inputDialogForIntegerNumber(String msg){return Integer.parseInt(BankSystem.inputDialog(msg));}
     
-    public static double inputDialogForFloatNumber(String msg){return Double.parseDouble(BankSystem.inputDialog(msg));}
+    private static double inputDialogForFloatNumber(String msg){return Double.parseDouble(BankSystem.inputDialog(msg));}
     
-    public static String inputDialog(String msg){return JOptionPane.showInputDialog(msg);}
+    private static String inputDialog(String msg){return JOptionPane.showInputDialog(msg);}
     
-    public static int generateAccountNumber(int firstBound,int secondBound){
+    private static int generateAccountNumber(int firstBound,int secondBound){
         int accountNumber=(int) (firstBound+Math.random()*((secondBound+1)-firstBound));
         /*Generates a number between firstBound and secondBound values
             Ex.: 1000 and 2000*/
@@ -62,7 +63,7 @@ public class BankSystem {
     }
     
     //Elemental functions: they deal with the objects that compose the system
-    public static void createAccount(){
+    private static void createAccount(){
         String ownerName,ownerIdentification,agency;
         int accountNumber;
         ownerName=BankSystem.inputDialog("<<<<< Criar nova conta >>>>>\nInsira o nome do titular");
@@ -74,7 +75,7 @@ public class BankSystem {
         BankSystem.showMessage("<<<< Conta criada com sucesso! >>>>>\nNumero da conta (auto-gerado): "+accountNumber);
     }
     
-    public static void informationsOfAnAccount(){
+    private static void informationsOfAnAccount(){
         if(BankSystem.accounts.isEmpty()){
             BankSystem.showMessage("<<<<< Nenhuma conta foi cadastrada! >>>>>");
             return;
@@ -89,14 +90,14 @@ public class BankSystem {
         BankSystem.showMessage("<<<<< Informacoes sobre conta >>>>>\n"+requiredAccount);
     }
     
-    public static Account getAccountThroughItsNumber(int numberOfAccount){
+    private static Account getAccountThroughItsNumber(int numberOfAccount){
         for(Account account:BankSystem.accounts){
             if(account.getAccountNumber()==numberOfAccount) return account;
         }
         return null;//In case that the account wasn't found
     }
     
-    public static void movimentAccount(){
+    private static void movimentAccount(){
         if(BankSystem.accounts.isEmpty()){
             BankSystem.showMessage("<<<<< Nenhuma conta foi cadastrada! >>>>>");
             return;
@@ -120,7 +121,7 @@ public class BankSystem {
         }
     }
     
-    public static void withDrawMoneyOfAnAccount(){
+    private static void withDrawMoneyOfAnAccount(){
         int numberOfAccount=BankSystem.inputDialogForIntegerNumber("<<<<< Sacar quantia de uma conta >>>>>\n"
                 + "Insira o numero da conta");
         Account requiredAccount=BankSystem.getAccountThroughItsNumber(numberOfAccount);
@@ -142,7 +143,7 @@ public class BankSystem {
         BankSystem.showMessage("<<<<< Quantia invalida! >>>>>");
     }
     
-    public static void depositMoneyInAnAccount(){
+    private static void depositMoneyInAnAccount(){
         int numberOfAccount=BankSystem.inputDialogForIntegerNumber("<<<<< Depositar quantia em uma conta >>>>>\n"
                 + "Insira o numero da conta");
         Account requiredAccount=BankSystem.getAccountThroughItsNumber(numberOfAccount);
@@ -160,7 +161,7 @@ public class BankSystem {
         BankSystem.showMessage("<<<<< Quantia invalida! >>>>>");
     }
 
-    public static void transferMoneyBetweenAccounts(){
+    private static void transferMoneyBetweenAccounts(){
         if(BankSystem.accounts.size()==1){
             BankSystem.showMessage("<<<<< Apenas uma conta foi cadastrada! >>>>>");
             return;
@@ -197,7 +198,7 @@ public class BankSystem {
         }else BankSystem.showMessage("<<<<< Operacao cancelada com sucesso! >>>>>");
     }
     
-    public static void tableOfAccounts(){
+    private static void tableOfAccounts(){
         if(BankSystem.accounts.isEmpty()){
             BankSystem.showMessage("<<<<< Nenhuma conta foi cadastrada! >>>>>");
             return;
