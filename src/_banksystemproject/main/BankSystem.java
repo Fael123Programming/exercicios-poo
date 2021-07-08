@@ -1,13 +1,13 @@
 package _banksystemproject.main;
 //There are two types of owners.
-import _banksystemproject.aux_classes.PhysicalPerson;
-import _banksystemproject.aux_classes.LegalPerson;
+import _banksystemproject.aux_classes.ownersofaccounts.LegalPerson;
+import _banksystemproject.aux_classes.ownersofaccounts.PhysicalPerson;
 //There are four types of accounts.
-import _banksystemproject.aux_classes.Account;
-import _banksystemproject.aux_classes.CurrentAccount;
-import _banksystemproject.aux_classes.EspecialAccount;
-import _banksystemproject.aux_classes.SavingsAccount;
-import _banksystemproject.aux_classes.BusinessAccount;
+import _banksystemproject.aux_classes.accounts.Account;
+import _banksystemproject.aux_classes.accounts.CurrentAccount;
+import _banksystemproject.aux_classes.accounts.EspecialAccount;
+import _banksystemproject.aux_classes.accounts.SavingsAccount;
+import _banksystemproject.aux_classes.accounts.BusinessAccount;
 
 import java.util.Collections;
 import java.util.ArrayList;

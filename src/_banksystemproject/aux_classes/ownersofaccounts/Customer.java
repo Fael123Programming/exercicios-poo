@@ -1,4 +1,6 @@
-package _banksystemproject.aux_classes;
+package _banksystemproject.aux_classes.ownersofaccounts;
+
+
 public abstract class Customer {
     private String name;
     

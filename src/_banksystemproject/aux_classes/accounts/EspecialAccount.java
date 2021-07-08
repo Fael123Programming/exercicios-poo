@@ -1,4 +1,7 @@
-package _banksystemproject.aux_classes;
+package _banksystemproject.aux_classes.accounts;
+
+import _banksystemproject.aux_classes.ownersofaccounts.Customer;
+
 public class EspecialAccount extends Account{
     private double valueEspecialCheck;
     

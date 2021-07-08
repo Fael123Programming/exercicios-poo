@@ -1,4 +1,7 @@
-package _banksystemproject.aux_classes;
+package _banksystemproject.aux_classes.accounts;
+
+import _banksystemproject.aux_classes.ownersofaccounts.LegalPerson;
+
 public class BusinessAccount extends EspecialAccount {
     
     public BusinessAccount(LegalPerson owner,int accountNumber){

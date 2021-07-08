@@ -1,4 +1,4 @@
-package _banksystemproject.aux_classes;
+package _banksystemproject.aux_classes.ownersofaccounts;
 
 import java.util.Date;
 

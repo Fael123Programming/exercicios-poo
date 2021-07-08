@@ -1,4 +1,7 @@
-package _banksystemproject.aux_classes;
+package _banksystemproject.aux_classes.accounts;
+
+import _banksystemproject.aux_classes.ownersofaccounts.PhysicalPerson;
+
 public class SavingsAccount extends Account{
     private static double yieldPercentage=0.005;
             

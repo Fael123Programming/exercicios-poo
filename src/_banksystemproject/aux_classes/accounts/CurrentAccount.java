@@ -1,4 +1,10 @@
-package _banksystemproject.aux_classes;
+package _banksystemproject.aux_classes.accounts;
+
+
+
+import _banksystemproject.aux_classes.ownersofaccounts.PhysicalPerson;
+import _banksystemproject.aux_classes.accounts.Account;
+
 public class CurrentAccount extends Account{
     public CurrentAccount(PhysicalPerson owner,int accountNumber){
         super(owner,accountNumber);
