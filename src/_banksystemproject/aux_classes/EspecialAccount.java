@@ -6,14 +6,12 @@ public class EspecialAccount extends Account{
         //The owner will be an instance of PhysicalPerson (which is a customer by definition).
         super(owner,accountNumber);
         this.valueEspecialCheck=0.0;
-        this.setType("Conta Especial/Pessoa Fisica");
     }
     
     public EspecialAccount(Customer owner,int accountNumber,String agency,
             double valueEspecialCheck){
         super(owner,accountNumber,agency);
         this.valueEspecialCheck=valueEspecialCheck;
-        this.setType("Conta Especial/Pessoa Fisica");
     }
     
     public double getValueEspecialCheck(){

@@ -36,7 +36,7 @@ public class BankSystem {
                     break;
                 case 5: BankSystem.exit();
                 default:
-                    BankSystem.showMessage("<<<<< Escolha uma opcao valida! >>>>>");
+                    BankSystem.showMessage("<<<<< Escolha uma opcao valida >>>>>");
             }
         }
     }
@@ -45,7 +45,7 @@ public class BankSystem {
     private static int menu(String options){return BankSystem.inputDialogForIntegerNumber(options);}
     
     private static void exit(){
-        BankSystem.showMessage("<<<<< Sessao finalizada! >>>>>");
+        BankSystem.showMessage("<<<<< Sessao finalizada >>>>>");
         System.exit(0);
     }
     
@@ -70,19 +70,26 @@ public class BankSystem {
         return accountNumber;
     }
     
+    private static Account getAccountThroughItsNumber(int numberOfAccount){
+        for(Account account:BankSystem.accounts){
+            if(account.getAccountNumber()==numberOfAccount) return account;
+        }
+        return null;//In case that we didn't find an account.
+    }
+    
     //Elemental functions: they deal with the objects that compose the system
     private static void createAccount(){
         Account newAccount;
-        String ownerName,cpf,dateOfBirth,agency;
-        int optionAccount,accountNumber;
+        String ownerName,cpf,cnpj,dateOfBirth,dateOfCreation,agency;
+        int typeOfAccount,accountNumber;
         double valueEspecialCheck;
         while(true){
-            optionAccount=BankSystem.menu("<<<<< Criar Nova Conta >>>>>\n1. Co"
+            typeOfAccount=BankSystem.menu("<<<<< Criar Nova Conta >>>>>\n1. Co"
                     + "nta corrente\n2. Conta poupança\n3. Conta especial (Pessoa "
                     + "fisica)\n4. Conta especial (Pessoa juridica)\n5. Voltar ao "
                     + "menu principal");
             accountNumber=BankSystem.generateAccountNumber(1000,10000);
-            switch(optionAccount){
+            switch(typeOfAccount){
                 case 1:
                     ownerName=BankSystem.inputDialog("<<<<< Criar Nova conta corrente"
                             + " >>>>>\nInsira seu nome");
@@ -95,8 +102,8 @@ public class BankSystem {
                     newAccount=new CurrentAccount(new PhysicalPerson(ownerName,cpf,dateOfBirth),
                             accountNumber,agency);
                     BankSystem.accounts.add(newAccount);
-                    BankSystem.showMessage(String.format("<<<<< %s criada com sucesso >>>>>\n"
-                            + "Numero da conta: %d",newAccount.getType(),accountNumber));
+                    BankSystem.showMessage(String.format("<<<<< Conta corrente criada com sucesso >>>>>\n"
+                            + "Numero da conta: %d",accountNumber));
                     break;
                 case 2:
                     ownerName=BankSystem.inputDialog("<<<<< Criar Nova conta poupança"
@@ -110,8 +117,8 @@ public class BankSystem {
                     newAccount=new SavingsAccount(new PhysicalPerson(ownerName,cpf,dateOfBirth)
                             ,accountNumber,agency);
                     BankSystem.accounts.add(newAccount);
-                    BankSystem.showMessage(String.format("<<<<< %s criada com sucesso >>>>>\n"
-                            + "Numero da conta: %d\nRendimento: %.2f%%",newAccount.getType(),
+                    BankSystem.showMessage(String.format("<<<<< Conta poupança criada com sucesso >>>>>\n"
+                            + "Numero da conta: %d\nRendimento: %.2f%%",
                             accountNumber,SavingsAccount.getYieldPercentage()));
                     break;
                 case 3:
@@ -130,14 +137,31 @@ public class BankSystem {
                     newAccount=new EspecialAccount(new PhysicalPerson(ownerName,cpf,dateOfBirth)
                             ,accountNumber,agency,valueEspecialCheck);
                     BankSystem.accounts.add(newAccount);
-                    BankSystem.showMessage(String.format("<<<<< %s criada com sucesso >>>>>\n"
-                            + "Numero da conta: %d\nCheque especial: R$ %.2f",newAccount.getType(),
+                    BankSystem.showMessage(String.format("<<<<< Conta especial/Pessoa fisica criada com sucesso >>>>>\n"
+                            + "Numero da conta: %d\nCheque especial: R$ %.2f",
                             accountNumber,valueEspecialCheck));
                     break;
                 case 4:
+                    ownerName=BankSystem.inputDialog("<<<<< Criar Nova conta especial"
+                            + " (Pessoa juridica) >>>>>\nInsira o nome");
+                    cnpj=BankSystem.inputDialog("<<<<< Criar Nova conta especial"
+                            + " (Pessoa juridica) >>>>>\nInsira o CNPJ");
+                    dateOfCreation=BankSystem.inputDialog("<<<<< Criar Nova conta especial"
+                            + " (Pessoa juridica) >>>>>\nInsira a data de criaçao da empresa/"
+                            + "instituiçao (formato dd/mm/aaaa)");
+                    agency=BankSystem.inputDialog("<<<<< Criar Nova conta especial"
+                            + " (Pessoa juridica) >>>>>\nInsira o nome da agencia");
+                    valueEspecialCheck=BankSystem.inputDialogForFloatNumber("<<<<< Criar Nova "
+                            + "conta especial (Pessoa juridica) >>>>>\nInsira o valor"
+                            + " do cheque especial");
+                    newAccount=new BusinessAccount(new LegalPerson(ownerName,cnpj,dateOfCreation)
+                            ,accountNumber,agency,valueEspecialCheck);
+                    BankSystem.accounts.add(newAccount);
+                    BankSystem.showMessage(String.format("<<<<< Conta especial/Pessoa juridica criada com sucesso >>>>>\n"
+                            + "Numero da conta: %d\nCheque especial: R$ %.2f",
+                            accountNumber,valueEspecialCheck));
                     break;
-                case 5:
-                    return;
+                case 5: return;
                 default:
                     BankSystem.showMessage("<<<<< Escolha uma opçao valida >>>>>");
             }
@@ -146,29 +170,22 @@ public class BankSystem {
     
     private static void informationsOfAnAccount(){
         if(BankSystem.accounts.isEmpty()){
-            BankSystem.showMessage("<<<<< Nenhuma conta foi cadastrada! >>>>>");
+            BankSystem.showMessage("<<<<< Nenhuma conta foi cadastrada >>>>>");
             return;
         }
         int numberOfAccount=BankSystem.inputDialogForIntegerNumber("<<<<< Informacoes sobre conta >>>>>\nInsira"
                 + " o numero da conta");
         Account requiredAccount=BankSystem.getAccountThroughItsNumber(numberOfAccount);
         if(requiredAccount==null){
-            BankSystem.showMessage("<<<<< Conta nao encontrada! >>>>>");
+            BankSystem.showMessage("<<<<< Conta nao encontrada >>>>>");
             return;
         }
         BankSystem.showMessage("<<<<< Informacoes sobre conta >>>>>\n"+requiredAccount);
     }
     
-    private static Account getAccountThroughItsNumber(int numberOfAccount){
-        for(Account account:BankSystem.accounts){
-            if(account.getAccountNumber()==numberOfAccount) return account;
-        }
-        return null;//In case that we didn't find an account.
-    }
-    
     private static void movimentAccount(){
         if(BankSystem.accounts.isEmpty()){
-            BankSystem.showMessage("<<<<< Nenhuma conta foi cadastrada! >>>>>");
+            BankSystem.showMessage("<<<<< Nenhuma conta foi cadastrada >>>>>");
             return;
         }
         while(true){
@@ -185,7 +202,7 @@ public class BankSystem {
                     break;
                 case 4: return;
                 default:
-                    BankSystem.showMessage("<<<<< Escolha uma opcao valida! >>>>>");
+                    BankSystem.showMessage("<<<<< Escolha uma opcao valida >>>>>");
             }
         }
     }
@@ -195,12 +212,22 @@ public class BankSystem {
                 + "Insira o numero da conta");
         Account requiredAccount=BankSystem.getAccountThroughItsNumber(numberOfAccount);
         if(requiredAccount==null){
-            BankSystem.showMessage("<<<<< Conta nao encontrada! >>>>>");
+            BankSystem.showMessage("<<<<< Conta nao encontrada >>>>>");
             return;
         }
-        if(requiredAccount.getCurrentAmount()==0){
-            BankSystem.showMessage("<<<<< Conta sem saldo! >>>>>");
+        if(requiredAccount.getCurrentAmount()==0&&!(requiredAccount.getType().equals("Conta especial/"
+                + "Pessoa fisica")^requiredAccount.getType().equals("Conta especial/Pessoa juridica"))){
+            //If requiredAccount hasn't anymore money and doesn't belong to an especial account type.
+            BankSystem.showMessage("<<<<< Conta sem saldo >>>>>");
             return;
+        }
+        if(requiredAccount.getType().equals("Conta especial/Pessoa fisica")^requiredAccount.getType().equals(
+        "Conta especial/Pessoa juridica")){
+            EspecialAccount castingAccount=(EspecialAccount) requiredAccount;
+            if((castingAccount.getCurrentAmount()*-1)==castingAccount.getValueEspecialCheck()){
+                BankSystem.showMessage("<<<<< Cheque especial atingido >>>>>");
+                return;
+            }
         }
         double amountToGet=BankSystem.inputDialogForFloatNumber(String.format("<<<<< Sacar quantia de uma conta >>>>>%n"
                 + "%s%nInsira a quantia a sacar",requiredAccount));
@@ -209,7 +236,7 @@ public class BankSystem {
                             + "Saldo atual da conta: R$%.2f",requiredAccount.getCurrentAmount()));
                     return;
         }
-        BankSystem.showMessage("<<<<< Quantia invalida! >>>>>");
+        BankSystem.showMessage("<<<<< Erro no saque - Verifique sua quantia e saldo >>>>>");
     }
     
     private static void depositMoneyInAnAccount(){
@@ -217,7 +244,7 @@ public class BankSystem {
                 + "Insira o numero da conta");
         Account requiredAccount=BankSystem.getAccountThroughItsNumber(numberOfAccount);
         if(requiredAccount==null){
-            BankSystem.showMessage("<<<<< Conta nao encontrada! >>>>>");
+            BankSystem.showMessage("<<<<< Conta nao encontrada >>>>>");
             return;
         }
         double amountToDeposit=BankSystem.inputDialogForFloatNumber(String.format("<<<<< Depositar quantia em uma conta >>>>>%n"
@@ -227,33 +254,33 @@ public class BankSystem {
                             + "Saldo atual da conta: R$%.2f",requiredAccount.getCurrentAmount()));
                     return;
         }
-        BankSystem.showMessage("<<<<< Quantia invalida! >>>>>");
+        BankSystem.showMessage("<<<<< Erro no deposito - Verifique sua quantia >>>>>");
     }
 
     private static void transferMoneyBetweenAccounts(){
         if(BankSystem.accounts.size()==1){
-            BankSystem.showMessage("<<<<< Apenas uma conta foi cadastrada! >>>>>");
+            BankSystem.showMessage("<<<<< Apenas uma conta foi cadastrada >>>>>");
             return;
         }
         int numberOfAccountToTransferWith=BankSystem.inputDialogForIntegerNumber(String.format("<<<<< Transferir"
                 + " de uma conta para outra >>>>>%nInsira o numero da conta depositante"));
         Account accountToTransferWith=BankSystem.getAccountThroughItsNumber(numberOfAccountToTransferWith);
         if(accountToTransferWith==null){
-            BankSystem.showMessage("<<<<< Conta nao encontrada! >>>>>");
+            BankSystem.showMessage("<<<<< Conta nao encontrada >>>>>");
             return;
         }
         int numberOfAccountToReceiveAmount=BankSystem.inputDialogForIntegerNumber(String.format("<<<<< Transferir"
                 + " de uma conta para outra >>>>>%nInsira o numero da conta receptora"));
         Account accountToReceiveAmount=BankSystem.getAccountThroughItsNumber(numberOfAccountToReceiveAmount);
         if(accountToReceiveAmount==null){
-            BankSystem.showMessage("<<<<< Conta nao encontrada! >>>>>");
+            BankSystem.showMessage("<<<<< Conta nao encontrada >>>>>");
             return;
         }
         double amountToTransfer=BankSystem.inputDialogForFloatNumber(String.format("<<<<< Transferir de uma conta para outra >>>>>%n"
         + "%n> Conta depositante <%n%s%n%n> Conta receptora <%n%s%n%nInsira a quantia a transferir",accountToTransferWith,
         accountToReceiveAmount));
         if(amountToTransfer<=0){
-            BankSystem.showMessage("<<<<< Quantia invalida! >>>>>");
+            BankSystem.showMessage("<<<<< Quantia invalida >>>>>");
             return;
         }
         if(BankSystem.inputDialog(String.format("<<<<< Transferir de uma conta para outra >>>>>%n"
@@ -263,13 +290,13 @@ public class BankSystem {
                 BankSystem.showMessage(String.format("<<<<< Transferencia realizada com sucesso! >>>>>%nConta depositante: "
                         + "saldo atual (R$%.2f)%nConta receptora: saldo atual (R$%.2f)",accountToTransferWith.getCurrentAmount(),
                         accountToReceiveAmount.getCurrentAmount()));
-            }else BankSystem.showMessage("<<<<< Impossivel efetuar a transferencia! >>>>>\n<<<<< Verifique os saldos das contas em operacao >>>>>");
-        }else BankSystem.showMessage("<<<<< Operacao cancelada com sucesso! >>>>>");
+            }else BankSystem.showMessage("<<<<< Impossivel efetuar a transferencia >>>>>");
+        }else BankSystem.showMessage("<<<<< Operacao cancelada com sucesso >>>>>");
     }
     
     private static void tableOfAccounts(){
         if(BankSystem.accounts.isEmpty()){
-            BankSystem.showMessage("<<<<< Nenhuma conta foi cadastrada! >>>>>");
+            BankSystem.showMessage("<<<<< Nenhuma conta foi cadastrada >>>>>");
             return;
         }
         Collections.sort(BankSystem.accounts);
@@ -278,6 +305,6 @@ public class BankSystem {
             System.out.println(account+"\n");
         }
         System.out.println("\n");
-        BankSystem.showMessage("<<<<< Tabela de contas desenhada no console ou prompt de comando! >>>>>");
+        BankSystem.showMessage("<<<<< Tabela de contas desenhada no console ou prompt de comando >>>>>");
     }   
 }

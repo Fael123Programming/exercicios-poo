@@ -2,12 +2,10 @@ package _banksystemproject.aux_classes;
 public class CurrentAccount extends Account{
     public CurrentAccount(PhysicalPerson owner,int accountNumber){
         super(owner,accountNumber);
-        this.setType("Conta Corrente");
     }
     
     public CurrentAccount(PhysicalPerson owner,int accountNumber,String agency){
         super(owner,accountNumber,agency);
-        this.setType("Conta Corrente");
     }
     
     @Override

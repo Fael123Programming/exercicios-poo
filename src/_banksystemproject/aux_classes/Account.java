@@ -4,7 +4,7 @@ public abstract class Account implements Comparable<Account>{
     private static int numberOfAccounts=0;
     private int accountNumber;
     private double currentAmount;
-    private String agency,type;
+    private String agency;
     private Customer owner;
     
     public Account(){//Empty constructor function
@@ -62,11 +62,24 @@ public abstract class Account implements Comparable<Account>{
     }
     
     public String getType(){
-        return this.type;
-    }
-    
-    public void setType(String newType){//It'll be used in inheritance classes.
-        this.type=newType;
+        String type=this.getClass().descriptorString().split("/")[2].replace(";","");
+        //It catches only the name of the class object 'this' belongs to.
+        switch(type){
+            case "CurrentAccount":
+                type="Conta corrente";
+                break;
+            case "EspecialAccount":
+                type="Conta especial/Pessoa fisica";
+                break;
+            case "BusinessAccount":
+                type="Conta especial/Pessoa juridica";
+                break;
+            case "SavingsAccount":
+                type="Conta poupança";
+                break;
+            default: type=null;
+        }
+        return type;
     }
     
     @Override
@@ -78,9 +91,11 @@ public abstract class Account implements Comparable<Account>{
    
     @Override
     public String toString(){
-        return String.format("<---- Responsável: %s   Saldo atual: R$ %.2f   "
-                + "Número: %d   Tipo: %s   Agencia: %s ---->",
+        return String.format("--------------------------------------%n"
+                + "Responsável: %s%nSaldo atual: R$ %.2f%n"
+                + "Número: %d%nTipo: %s%nAgencia: %s%n"
+                + "--------------------------------------",
                 this.owner.getName(),this.currentAmount,
-                this.accountNumber,this.type,this.agency);
+                this.accountNumber,this.getType(),this.agency);
     }
 }

@@ -4,12 +4,10 @@ public class SavingsAccount extends Account{
             
     public SavingsAccount(PhysicalPerson owner,int accountNumber){
         super(owner,accountNumber);
-        this.setType("Conta Poupança");
     }
     
     public SavingsAccount(PhysicalPerson owner,int accountNumber,String agency){
         super(owner,accountNumber,agency);
-        this.setType("Conta Poupança");
     }
     
     public boolean makeMoney(){
