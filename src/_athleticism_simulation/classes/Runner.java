@@ -9,7 +9,7 @@ public class Runner extends Athlete implements IRunner{
     
     @Override
     public void warmUp(){//This athlete warms up this own way.
-        System.out.println(super.getName()+" is warming up...");
+        System.out.println(super.getName()+" ("+this.modality()+") is warming up...");
     }
     
     @Override

@@ -8,7 +8,7 @@ public class Triathlete extends Athlete implements IRunner,ISwimmer,ICyclist{
    
    @Override
    public void warmUp(){//This athlete warms up this own way.
-       System.out.println(super.getName()+" is warming up...");
+       System.out.println(super.getName()+" ("+this.modality()+") is warming up...");
    }
    
    @Override
