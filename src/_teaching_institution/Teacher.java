@@ -1,4 +1,4 @@
-package _instituicaodeensino;
+package _teaching_institution;
 public class Teacher extends Person{
     private String identification;
     private String teachingArea;

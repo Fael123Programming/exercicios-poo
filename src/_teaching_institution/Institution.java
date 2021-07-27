@@ -1,4 +1,4 @@
-package _instituicaodeensino;
+package _teaching_institution;
 import java.util.ArrayList;
 public class Institution {
     private String name;
