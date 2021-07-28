@@ -1,42 +1,25 @@
 package _banksystemproject.aux_classes.accounts;
 
 import _banksystemproject.aux_classes.ownersofaccounts.Customer;
+import _banksystemproject.aux_classes.ownersofaccounts.PhysicalPerson;
 
-public class EspecialAccount extends Account{
-    private double valueEspecialCheck;
-    
-    public EspecialAccount(Customer owner,int accountNumber){
-        //The owner will be an instance of PhysicalPerson (which is a customer by definition).
+public class EspecialAccount extends EspecialAccountGeneric{
+    public EspecialAccount(PhysicalPerson owner,int accountNumber){
         super(owner,accountNumber);
-        this.valueEspecialCheck=0.0;
     }
     
-    public EspecialAccount(Customer owner,int accountNumber,String agency,
+    public EspecialAccount(PhysicalPerson owner,int accountNumber,String agency,
             double valueEspecialCheck){
-        super(owner,accountNumber,agency);
-        this.valueEspecialCheck=valueEspecialCheck;
-    }
-    
-    public double getValueEspecialCheck(){
-        return this.valueEspecialCheck;
-    }
-    
-    public void setValueEspecialCheck(double newValueEspecialCheck){
-        this.valueEspecialCheck=newValueEspecialCheck;
+        super(owner,accountNumber,agency,valueEspecialCheck);
     }
     
     @Override
-    public boolean withdraw(double quant){
-        if(quant<=0||quant>this.valueEspecialCheck+this.getCurrentAmount()) return false;
-        this.setCurrentAmount(this.getCurrentAmount()-quant);
-        return true;
-    }
+    public PhysicalPerson getOwner(){return (PhysicalPerson) super.getOwner();}
     
     @Override
-    public boolean transfer(Account target,double quant){
-        if(quant<=0||target==null||quant>this.valueEspecialCheck+this.getCurrentAmount()) return false;
-        target.deposit(quant);//As amount was already checked,this method will always succeed.
-        this.withdraw(quant);
-        return true;
+    public void setOwner(Customer newOwner){
+        if(newOwner.getClass().equals(PhysicalPerson.class)){
+            super.setOwner(newOwner);
+        }else throw new IllegalArgumentException("## Invalid Argument ##");
     }
 }

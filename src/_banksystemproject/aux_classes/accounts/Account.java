@@ -5,7 +5,7 @@ import _banksystemproject.aux_classes.ownersofaccounts.Customer;
 public abstract class Account implements Comparable<Account>{
     private static int numberOfAccounts=0;
     private int accountNumber;
-    private double currentAmount;
+    private double currentAmount,valueEspecialCheck;
     private String agency;
     private Customer owner;
     
@@ -17,19 +17,31 @@ public abstract class Account implements Comparable<Account>{
         this.owner=owner;
         this.accountNumber=accountNumber;
         this.currentAmount=0.0;
+        this.valueEspecialCheck=0.0;
         Account.numberOfAccounts++;
     }
     
-    public Account(Customer owner,int accountNumber,String agency){
+    public Account(Customer owner,int accountNumber,String agency,double valueEspecialCheck){
         this(owner,accountNumber);//It calls the constructor function above
         this.agency=agency;
+        this.valueEspecialCheck=valueEspecialCheck;
         this.currentAmount=0.0;
         Account.numberOfAccounts++;
     }
+
+    public boolean withdraw(double quant){
+        if(quant<=0||quant>this.valueEspecialCheck+this.getCurrentAmount()) return false;
+        this.setCurrentAmount(this.getCurrentAmount()-quant);
+        return true;
+    }
     
-    public abstract boolean withdraw(double quant);//to get money
-    
-    public abstract boolean transfer(Account targetAccount,double quant);
+    public boolean transfer(Account targetAccount,double quant){
+        if(this.withdraw(quant)){
+            targetAccount.deposit(quant);
+            return true;
+        }
+        return false;
+    }
 
     public boolean deposit(double quant){
         if(quant<=0) return false;
@@ -45,9 +57,9 @@ public abstract class Account implements Comparable<Account>{
         this.accountNumber=newNumber;
     }
     
-    public Customer getAccountOwner(){return this.owner;}
+    public Customer getOwner(){return this.owner;}
     
-    public void setAccountOwner(Customer newOwner){
+    public void setOwner(Customer newOwner){
         this.owner=newOwner;
     }
     
@@ -61,6 +73,10 @@ public abstract class Account implements Comparable<Account>{
     
     public void setAgency(String newAgency){
         this.agency=newAgency;
+    }
+    
+    public double getValueEspecialCheck(){
+        return this.valueEspecialCheck;
     }
     
     public String getType(){

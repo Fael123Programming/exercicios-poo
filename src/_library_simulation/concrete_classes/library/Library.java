@@ -1,6 +1,6 @@
-package _library_simulation.library;
+package _library_simulation.concrete_classes.library;
 
-import _library_simulation.publications.abstract_classes.Publication;
+import _library_simulation.abstract_classes.publication.Publication;
 import java.util.List;
 import java.util.ArrayList;
 

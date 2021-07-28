@@ -1,8 +1,10 @@
 package _banksystemproject.aux_classes.accounts;
 
+import _banksystemproject.aux_classes.ownersofaccounts.Customer;
 import _banksystemproject.aux_classes.ownersofaccounts.PhysicalPerson;
 
 public class SavingsAccount extends Account{
+    //Change it, setting this account as subclass of class currentAccount instead.
     private static double yieldPercentage=0.005;
             
     public SavingsAccount(PhysicalPerson owner,int accountNumber){
@@ -10,12 +12,12 @@ public class SavingsAccount extends Account{
     }
     
     public SavingsAccount(PhysicalPerson owner,int accountNumber,String agency){
-        super(owner,accountNumber,agency);
+        super(owner,accountNumber,agency,0.0);
     }
     
     public boolean makeMoney(){
-        if(this.getCurrentAmount()==0) return false;
-        this.deposit(this.getCurrentAmount()*SavingsAccount.yieldPercentage);
+        if(super.getCurrentAmount()==0) return false;
+        super.deposit(super.getCurrentAmount()*SavingsAccount.yieldPercentage);
         return true;
     }
     
@@ -28,17 +30,12 @@ public class SavingsAccount extends Account{
     }
     
     @Override
-    public boolean withdraw(double quant){
-        if(quant<=0||this.getCurrentAmount()<quant) return false; 
-        this.setCurrentAmount(this.getCurrentAmount()-quant);
-        return true;
-    }
+    public PhysicalPerson getOwner(){return (PhysicalPerson) super.getOwner();}
     
     @Override
-    public boolean transfer(Account target,double quant){
-        if(quant<=0||this.getCurrentAmount()<quant) return false;
-        target.deposit(quant);
-        this.withdraw(quant);
-        return true;
+    public void setOwner(Customer newOwner){
+        if(newOwner.getClass().equals(PhysicalPerson.class)){
+            super.setOwner(newOwner);
+        }else throw new IllegalArgumentException("## Invalid Argument ##");
     }
 }

@@ -1,9 +1,6 @@
 package _banksystemproject.aux_classes.accounts;
-
-
-
+import _banksystemproject.aux_classes.ownersofaccounts.Customer;
 import _banksystemproject.aux_classes.ownersofaccounts.PhysicalPerson;
-import _banksystemproject.aux_classes.accounts.Account;
 
 public class CurrentAccount extends Account{
     public CurrentAccount(PhysicalPerson owner,int accountNumber){
@@ -11,21 +8,16 @@ public class CurrentAccount extends Account{
     }
     
     public CurrentAccount(PhysicalPerson owner,int accountNumber,String agency){
-        super(owner,accountNumber,agency);
+        super(owner,accountNumber,agency,0.0);//0.0 is the value of the especial check.
     }
     
     @Override
-    public boolean withdraw(double quant){
-        if(quant<=0||this.getCurrentAmount()<quant) return false; 
-        this.setCurrentAmount(this.getCurrentAmount()-quant);
-        return true;
-    }
+    public PhysicalPerson getOwner(){return (PhysicalPerson) super.getOwner();}
     
     @Override
-    public boolean transfer(Account target,double quant){
-        if(quant<=0||this.getCurrentAmount()<quant) return false;
-        target.deposit(quant);
-        this.withdraw(quant);
-        return true;
+    public void setOwner(Customer newOwner){
+        if(newOwner.getClass().equals(PhysicalPerson.class)){
+            super.setOwner(newOwner);
+        }else throw new IllegalArgumentException("## Invalid Argument ##");
     }
 }

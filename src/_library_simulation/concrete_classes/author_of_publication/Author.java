@@ -1,4 +1,4 @@
-package _library_simulation.authorofpublication;
+package _library_simulation.concrete_classes.author_of_publication;
 
 public class Author {
     private String name,titration;
