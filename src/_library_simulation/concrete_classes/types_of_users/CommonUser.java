@@ -1,7 +1,9 @@
 package _library_simulation.concrete_classes.types_of_users;
 
 import _library_simulation.abstract_classes.user.User;
-import _library_simulation.concrete_classes.lending_of_publication.Lending;
+import _library_simulation.concrete_classes.lending_of_publication.lending_main_class.Lending;
+import _library_simulation.concrete_classes.lending_of_publication.renovation.Renovation;
+import _library_simulation.concrete_classes.lending_of_publication.time_class.StylishDateTime;
 
 public class CommonUser extends User{
     private Lending lendings[];
@@ -22,6 +24,7 @@ public class CommonUser extends User{
     
     @Override
     public boolean addNewLending(Lending newLending){
+        if(newLending==null) return false;
         if(!newLending.getPublication().isAvailable() || this.lendingsMade==3) return false;
         this.lendings[this.lendingsMade]=newLending;
         this.lendingsMade++;
@@ -29,12 +32,41 @@ public class CommonUser extends User{
     }
     
     @Override
-    public boolean renewLending(String titleOfPublication){
+    public double endLending(String titleOfPublication){
+        if(this.lendingsMade==0) return -1;
+        Lending toEnd;
+        for(byte counter=0;counter<this.lendingsMade;counter++){
+            toEnd=this.lendings[counter];
+            if(toEnd.getPublication().getTitle().equals(titleOfPublication)){
+                Double fineValue=this.calculateFine(toEnd);
+                toEnd.getPublication().setAvailable(true);
+                //Herafter,I'm going to reorder the array that contains the lendings
+                for(int toOrderArray=counter;toOrderArray<this.lendingsMade-1;toOrderArray++){
+                    this.lendings[toOrderArray]=this.lendings[toOrderArray+1];
+                }
+                this.lendings[this.lendingsMade-1]=null;//That means, last position of array this.lendings
+                this.lendingsMade--;
+                return fineValue;
+            }
+        }
+        return -1;//In case that the wanted lending is not found
+    }
+    
+    @Override
+    public boolean renewLending(String titleOfPublication,int daysAfterCurrentDeliveryDateTime){
         if(this.lendingsMade==0) return false;
+        Lending lendingToVerify;
         for(int counter=0;counter<this.lendingsMade;counter++){
-            if(this.lendings[counter].getPublication().getTitle().equals(titleOfPublication)){
-                this.lendings[counter].setRenews(this.lendings[counter].getRenews()+1);
-                return true;
+            lendingToVerify=this.lendings[counter];
+            if(lendingToVerify.getPublication().getTitle().equals(titleOfPublication)){
+                lendingToVerify.addRenovation(new Renovation(StylishDateTime.
+                     addAmountOfDaysInDateTimeStringBasedOnCurrentTime(lendingToVerify.
+                             getDeliveryDateTime(),daysAfterCurrentDeliveryDateTime)));//It's just made timestamping of new renovation made
+                //See StylishDateTime documentations!
+                lendingToVerify.setDeliveryDateTime(lendingToVerify.
+                        getRenovations()[lendingToVerify.getRenovations().length-1].
+                        getDateTimeString());//Setting a new date that user will have to deliver the publication he/she borrowed
+                return true;//Everything went nice!
             }
         }
         return false;
@@ -43,7 +75,8 @@ public class CommonUser extends User{
     @Override
     public double calculateFine(Lending lending){
         if(lending==null) return 0;
-        if(lending.getRenews()<=3) return 0;
-        return (lending.getRenews()-3)*lending.getPublication().getFineValue();
+        if(lending.getRenovations()==null) return 0;//No renovations were made.
+        if(lending.getRenovations().length<=3) return 0;//Within limit: no additional charge to pay
+        return (lending.getRenovations().length-3)*lending.getPublication().getFineValue();
     }
 }

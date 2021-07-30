@@ -1,7 +1,9 @@
 package _library_simulation.concrete_classes.types_of_users;
 
 import _library_simulation.abstract_classes.user.User;
-import _library_simulation.concrete_classes.lending_of_publication.Lending;
+import _library_simulation.concrete_classes.lending_of_publication.lending_main_class.Lending;
+import _library_simulation.concrete_classes.lending_of_publication.renovation.Renovation;
+import _library_simulation.concrete_classes.lending_of_publication.time_class.StylishDateTime;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -21,18 +23,41 @@ public class EspecialUser extends User{
     }
     
     @Override
-    public boolean addNewLending(Lending lending){
-        if(lending==null) return false;
-        this.lendings.add(lending);
+    public boolean addNewLending(Lending newLending){
+        if(newLending==null) return false;
+        if(!newLending.getPublication().isAvailable()) return false;//Unnecessary
+        this.lendings.add(newLending);
         return true;
     }
     
     @Override
-    public boolean renewLending(String titleOfPublication){
+    public double endLending(String titleOfPublication){
+        if(this.lendings.isEmpty()) return -1;
+        Lending toEnd;
+        for(byte counter=0;counter<this.lendings.size();counter++){
+            toEnd=this.lendings.get(counter);
+            if(toEnd.getPublication().getTitle().equals(titleOfPublication)){
+                Double fineValue=this.calculateFine(toEnd);
+                toEnd.getPublication().setAvailable(true);
+                this.lendings.remove(counter);
+                return fineValue;
+            }
+        }
+        return -1;//In case that the wanted lending is not found
+    }
+    
+    @Override
+    public boolean renewLending(String titleOfPublication,int daysAfterCurrentDeliveryDateTime){
         if(this.lendings.isEmpty()) return false;
+        Lending toVerify;
         for(int counter=0;counter<this.lendings.size();counter++){
-            if(this.lendings.get(counter).getPublication().getTitle().equals(titleOfPublication)){
-                this.lendings.get(counter).setRenews(this.lendings.get(counter).getRenews()+1);
+            toVerify=this.lendings.get(counter);
+            if(toVerify.getPublication().getTitle().equals(titleOfPublication)){
+                toVerify.addRenovation(new Renovation(StylishDateTime.
+                        addAmountOfDaysInDateTimeStringBasedOnCurrentTime(
+                                toVerify.getDeliveryDateTime(),daysAfterCurrentDeliveryDateTime)));//It's just made timestamping of new renovation made
+                toVerify.setDeliveryDateTime(toVerify.getRenovations()[toVerify.
+                        getRenovations().length-1].getDateTimeString());//Setting a new date that user will have to deliver the publication he/she borrowed        
                 return true;
             }
         }
@@ -42,7 +67,8 @@ public class EspecialUser extends User{
     @Override
     public double calculateFine(Lending lending){
         if(lending==null) return 0;
-        if(lending.getRenews()<=5) return 0;
-        return (lending.getRenews()-5)*lending.getPublication().getFineValue();
+        if(lending.getRenovations()==null) return 0;//No renovations were made yet
+        if(lending.getRenovations().length<=5) return 0;//Within the limit of free-of-charge renovations
+        return (lending.getRenovations().length-5)*lending.getPublication().getFineValue();
     }
 }

@@ -1,6 +1,6 @@
 package _library_simulation.abstract_classes.user;
 
-import _library_simulation.concrete_classes.lending_of_publication.Lending;
+import _library_simulation.concrete_classes.lending_of_publication.lending_main_class.Lending;
 
 public abstract class User {
     private String name,phone,email,cpf;
@@ -46,9 +46,10 @@ public abstract class User {
     
     public abstract boolean addNewLending(Lending lending);
     
-    public abstract boolean renewLending(String titleOfPublication);
+    public abstract double endLending(String titleOfPublication);
+    
+    public abstract boolean renewLending(String titleOfPublication,int daysAfterCurrentDeliveryDateTime);
     
     public abstract double calculateFine(Lending lending);
     
-    //public abstract double finishLending(Lending lending); 
 }

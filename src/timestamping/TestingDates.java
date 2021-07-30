@@ -11,6 +11,9 @@ import java.time.LocalTime;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 //--------------------------------
 public class TestingDates {
@@ -73,6 +76,10 @@ public class TestingDates {
         System.out.println("Time now: "+timeNow);
         System.out.println("After a while: "+afterAWhile);
         System.out.println("Random time I've chosen: "+parsedTime);
+        System.out.println(LocalTime.MAX); //23:59:59.999999999
+        System.out.println(LocalTime.MIDNIGHT); //00:00
+        System.out.println(LocalTime.MIN); //00:00
+        System.out.println(LocalTime.NOON); //12:00
         //------------------------------------------------------------------------------
         //Class LocalDate
         LocalDate dateNow=LocalDate.now();//yyyy-mm-dd
@@ -107,5 +114,19 @@ public class TestingDates {
         System.out.println(tenDaysAgo);
         Period prd=Period.between(tenDaysAgo,ld);
         System.out.println("The quantity of days is "+prd.getDays());
+        //Class Instant
+        Instant momentNow = Instant.now();//UTC time
+        Instant parsedString = Instant.parse("2021-07-29T13:27:50Z");
+        System.out.println(momentNow);
+        System.out.println(parsedString);
+        //Class ZonedDateTime
+        ZonedDateTime zonedDateTime = ZonedDateTime.now();
+        LocalDateTime anotherDateTime=LocalDateTime.now();
+        ZonedDateTime specificZonedDateTime = ZonedDateTime.of(anotherDateTime,ZoneId.of("America/Sao_Paulo"));
+        ZonedDateTime parsedZonedDateTime=ZonedDateTime.parse("2021-07-29T13:27:50-03:00[America/Sao_Paulo]");
+        System.out.println(zonedDateTime);
+        System.out.println(specificZonedDateTime);
+        System.out.println(parsedZonedDateTime);
+        
     }
 }
