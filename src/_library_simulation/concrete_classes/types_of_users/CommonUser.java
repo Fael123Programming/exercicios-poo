@@ -26,8 +26,7 @@ public class CommonUser extends User{
     public boolean addNewLending(Lending newLending){
         if(newLending==null) return false;
         if(!newLending.getPublication().isAvailable() || this.lendingsMade==3) return false;
-        this.lendings[this.lendingsMade]=newLending;
-        this.lendingsMade++;
+        this.lendings[this.lendingsMade++]=newLending;
         return true;
     }
     
@@ -40,16 +39,15 @@ public class CommonUser extends User{
             if(toEnd.getPublication().getTitle().equals(titleOfPublication)){
                 Double fineValue=this.calculateFine(toEnd);
                 toEnd.getPublication().setAvailable(true);
-                //Herafter,I'm going to reorder the array that contains the lendings
+                //Hereafter,I'm going to reorder the array that contains the lendings
                 for(int toOrderArray=counter;toOrderArray<this.lendingsMade-1;toOrderArray++){
                     this.lendings[toOrderArray]=this.lendings[toOrderArray+1];
                 }
-                this.lendings[this.lendingsMade-1]=null;//That means, last position of array this.lendings
-                this.lendingsMade--;
+                this.lendings[--this.lendingsMade]=null;//That means, last position of array this.lendings
                 return fineValue;
             }
         }
-        return -1;//In case that the wanted lending is not found
+        return -1;//In case that wanted lending is not found
     }
     
     @Override

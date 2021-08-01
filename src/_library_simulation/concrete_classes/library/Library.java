@@ -14,6 +14,7 @@ public class Library {
         this.name=name;
         this.address=address;
         this.publications= new ArrayList<>();
+        this.users=new ArrayList<>();
     }
 
     public String getName() {

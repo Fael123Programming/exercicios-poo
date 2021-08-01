@@ -1,6 +1,5 @@
 package _library_simulation.abstract_classes.publication;
 
-import _library_simulation.abstract_classes.publication.Publication;
 import _library_simulation.concrete_classes.author_of_publication.Author;
 
 public abstract class PublicationOneAuthor extends Publication{

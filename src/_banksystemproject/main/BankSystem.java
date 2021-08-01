@@ -61,7 +61,7 @@ public class BankSystem {
         int accountNumber=(int) (firstBound+Math.random()*((secondBound+1)-firstBound));
         /*Generates a number between firstBound and secondBound values
             Ex.: 1000 and 2000*/
-        if(BankSystem.accounts.isEmpty()){return accountNumber;}
+        if(BankSystem.accounts.isEmpty()) return accountNumber;
         while(BankSystem.getAccountThroughItsNumber(accountNumber)!=null){
             /*It will repeat whereas the current value of accountNumber already
             exists belonging to an account looking for an unprecedented number.*/

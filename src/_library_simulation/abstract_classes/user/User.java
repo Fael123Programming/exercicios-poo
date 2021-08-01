@@ -51,5 +51,4 @@ public abstract class User {
     public abstract boolean renewLending(String titleOfPublication,int daysAfterCurrentDeliveryDateTime);
     
     public abstract double calculateFine(Lending lending);
-    
 }

@@ -25,7 +25,7 @@ public class EspecialUser extends User{
     @Override
     public boolean addNewLending(Lending newLending){
         if(newLending==null) return false;
-        if(!newLending.getPublication().isAvailable()) return false;//Unnecessary
+        if(!newLending.getPublication().isAvailable()) return false;
         this.lendings.add(newLending);
         return true;
     }
@@ -34,7 +34,7 @@ public class EspecialUser extends User{
     public double endLending(String titleOfPublication){
         if(this.lendings.isEmpty()) return -1;
         Lending toEnd;
-        for(byte counter=0;counter<this.lendings.size();counter++){
+        for(int counter=0;counter<this.lendings.size();counter++){
             toEnd=this.lendings.get(counter);
             if(toEnd.getPublication().getTitle().equals(titleOfPublication)){
                 Double fineValue=this.calculateFine(toEnd);
@@ -43,7 +43,7 @@ public class EspecialUser extends User{
                 return fineValue;
             }
         }
-        return -1;//In case that the wanted lending is not found
+        return -1;//In case that wanted lending is not found
     }
     
     @Override

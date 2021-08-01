@@ -19,6 +19,4 @@ public class Paper extends PublicationManyAuthors{
     public void setAbtract(String newAbstract) {
         this._abstract = newAbstract;
     }
-    
-    
 }

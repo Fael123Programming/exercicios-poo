@@ -13,7 +13,7 @@ public class StylishDateTime {
     
     /**
      * This method receives an integer number which specifies a day to consider to create a string
-     * formatted in format of DateTimeFormatter FORMATTER (it is an attribute of StylishDateTime), based 
+     * formatted in format of DateTimeFormatter FORMATTER (it is an attribute of this class), based 
      * on system's current date and time.
      * Examples of usages: 0, returns system's current date and time; 5, returns date and time of 5 days
      * after now; -10, returns date and time of 10 days ago.

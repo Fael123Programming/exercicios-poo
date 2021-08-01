@@ -10,7 +10,7 @@ public abstract class Publication {
     private boolean available;
     
     public Publication(String dateOfPublication,String title,Publication relatedWork,double fineValue){
-        //At least one related publication and one author shall be passed through this constructor function.
+        //At least one related publication shall be passed through this constructor function.
         this.dateOfPublication=dateOfPublication;
         this.title=title;
         this.relatedWorks=new ArrayList<>();
@@ -26,7 +26,6 @@ public abstract class Publication {
     public void setAvailable(boolean available) {
         this.available = available;
     }
-    
     
     public double getFineValue() {
         return this.fineValue;
