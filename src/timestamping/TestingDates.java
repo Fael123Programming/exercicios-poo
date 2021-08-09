@@ -2,6 +2,8 @@ package timestamping;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat; 
+import java.text.DateFormat;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -16,6 +18,15 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 //--------------------------------
+/*  Most-recommended classes to use with date and time handling
+    Instant - a timestamp
+    LocalDate - a date without a time, or any reference to an offset or time-zone
+    LocalTime - a time without a date, or any reference to an offset or time-zone
+    LocalDateTime - combines date and time, but still without any offset or time-zone
+    ZonedDateTime - a "full" date-time with time-zone and resolved offset from UTC/Greenwich
+Access the following link to get the formal documentation of time API:
+https://docs.oracle.com/javase/9/docs/api/java/time/package-summary.html*/
+
 public class TestingDates {
     public static void main(String[] args) throws ParseException{
         //Class Date -> import java.util.Date;
@@ -24,6 +35,9 @@ public class TestingDates {
         long oneWeek=7*24*60*60*1000;//One week in milliseconds.
         timeExp.setTime(timeExp.getTime()+oneWeek);
         System.out.println("After a whole week: "+timeExp+" Milliseconds: "+timeExp.getTime());
+        Date newDate=new Date();
+        DateFormat fmt=DateFormat.getDateInstance(DateFormat.FULL);
+        System.out.println(fmt.format(newDate));
         //--------------------------------------------------------------------------
         //Class Calendar -> import java.util.Calendar;
         Calendar calendar=Calendar.getInstance();

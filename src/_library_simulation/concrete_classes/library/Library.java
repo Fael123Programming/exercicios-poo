@@ -2,13 +2,12 @@ package _library_simulation.concrete_classes.library;
 
 import _library_simulation.abstract_classes.publication.Publication;
 import _library_simulation.abstract_classes.user.User;
-import java.util.List;
 import java.util.ArrayList;
 
 public class Library {
     private String name,address;
-    private List<Publication> publications;
-    private List<User> users;
+    private ArrayList<Publication> publications;
+    private ArrayList<User> users;
     
     public Library(String name,String address){
         this.name=name;
@@ -33,9 +32,9 @@ public class Library {
         this.address = newAddress;
     }
 
-    public Publication[] getPublications() {
+    public ArrayList getPublications() {
         if(this.publications.isEmpty()) return null;
-        return (Publication[]) this.publications.toArray();
+        return this.publications;
     }
 
     public boolean addPublication(Publication pub){
@@ -84,8 +83,8 @@ public class Library {
         return null;
     }
     
-    public User[] getUsers(){
+    public ArrayList getUsers(){
         if(this.users.isEmpty()) return null;
-        return (User[]) this.users.toArray();
+        return this.users;
     }
 }

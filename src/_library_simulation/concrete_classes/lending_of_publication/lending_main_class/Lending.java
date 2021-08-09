@@ -1,59 +1,75 @@
 package _library_simulation.concrete_classes.lending_of_publication.lending_main_class;
 
-import _library_simulation.concrete_classes.lending_of_publication.time_class.StylishDateTime;
 import _library_simulation.abstract_classes.publication.Publication;
-import _library_simulation.concrete_classes.lending_of_publication.renovation.Renovation;
+import _library_simulation.abstract_classes.user.User;
 import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
 
 public class Lending {
     private Publication publication;
-    private String lendingDateTime,deliveryDateTime;
-    private List<Renovation> renovations;
- 
-    public Lending(Publication publication,int lendingDay,int deliveryDay) {
-        if(!publication.isAvailable() || lendingDay>=deliveryDay) return;
-        //You can`t make a new lending with an unavailable material or wrong dates!
-        this.publication = publication;
-        this.publication.setAvailable(false);
-        this.lendingDateTime=StylishDateTime.getDateTimeString(lendingDay);
-        this.deliveryDateTime=StylishDateTime.getDateTimeString(deliveryDay);
-        //See class StylishDateTime documentations!
-        this.renovations=new ArrayList<>();
+    private LocalDateTime lendingDateTime;
+    private LocalDate deliveryDate;
+    private ArrayList<LocalDateTime> renovations;
+    private boolean created;
+    
+    public boolean lend(Publication publication,User userToLend,int quantityOfDays){
+        //This method fills up the attributes of each object of this class themselves.
+        if(publication.isAvailable()){
+            if(userToLend.canBorrow()){
+                publication.setAvailable(false);
+                this.publication=publication;
+                this.lendingDateTime=LocalDateTime.now();
+                this.deliveryDate=this.lendingDateTime.plus(Period.ofDays(quantityOfDays)).toLocalDate();
+                this.renovations=new ArrayList<>();
+                this.created=true;
+                return userToLend.getLendings().add(this);
+            }
+            return false;//Problem! User can't borrow any publication...
+        }
+        return false;//Problem! Publication is not available...
+    }
+    
+    public boolean renew(int additionalDays){
+        if(!this.created || additionalDays<=0) return false;
+        this.deliveryDate=this.deliveryDate.plus(Period.ofDays(additionalDays));
+        this.renovations.add(LocalDateTime.now());
+        return true;
     }
 
     public Publication getPublication() {
         return this.publication;
     }
 
-    public void setPublication(Publication publication) {
-        this.publication = publication;
+    public boolean setPublication(Publication newPublication) {
+        if(!newPublication.isAvailable()) return false;
+        this.publication = newPublication;
+        return true;
     }
 
-    public String getLendingDateTime() {
+    public LocalDateTime getLendingDateTime() {
         return this.lendingDateTime;
     }
 
-    public void setLendingDateTime(String lendingDateTime) {
+    public void setLendingDateTime(LocalDateTime lendingDateTime) {
         this.lendingDateTime = lendingDateTime;
     }
 
-    public String getDeliveryDateTime() {
-        return this.deliveryDateTime;
+    public LocalDate getDeliveryDate() {
+        return this.deliveryDate;
     }
 
-    public void setDeliveryDateTime(String deliveryDateTime) {
-        this.deliveryDateTime = deliveryDateTime;
+    public void setDeliveryDate(LocalDate newDeliveryDate) {
+        this.deliveryDate = newDeliveryDate;
     }
     
-    public Renovation[] getRenovations(){
+    public boolean isCreated(){
+        return this.created;
+    }
+    
+    public ArrayList getRenovations(){
         if(this.renovations.isEmpty()) return null;
-        return (Renovation[]) this.renovations.toArray();
-    }
-    
-    public boolean addRenovation(Renovation newRenovation){
-        if(newRenovation==null) return false;
-        this.renovations.add(newRenovation);
-        return true;
+        return this.renovations;
     }
 }
