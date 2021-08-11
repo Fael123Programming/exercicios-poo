@@ -5,12 +5,12 @@ public class Person {
     private String cpf;
     private String phoneNumber;
     private String address;
-    
-    public Person(String name,String cpf,String phoneNumber,String address){
-        this.name=name;
-        this.cpf=cpf;
-        this.phoneNumber=phoneNumber;
-        this.address=address;
+
+    public Person(String name, String cpf, String phoneNumber, String address) {
+        this.name = name;
+        this.cpf = cpf;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
     }
 
     public String getName() {

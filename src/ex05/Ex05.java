@@ -5,5 +5,5 @@ public class Ex05 {
         Numbers nums = new Numbers();
         nums.start();
     }
-    
+
 }

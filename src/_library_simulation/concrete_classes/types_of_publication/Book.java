@@ -3,16 +3,16 @@ package _library_simulation.concrete_classes.types_of_publication;
 import _library_simulation.abstract_classes.publication.Publication;
 import _library_simulation.concrete_classes.author_of_publication.Author;
 
-public class Book extends Publication{
+public class Book extends Publication {
     private int editionNumber;
-    private String publisher,isbn;//International Standard Book Number.
-    
-    public Book(String dateOfPublication,String title,Publication relatedWork,
-            Author author,double fineValue,int editionNumber,String publisher,String isbn){
-        super(dateOfPublication,title,relatedWork,author,fineValue);
-        this.editionNumber=editionNumber;
-        this.publisher=publisher;
-        this.isbn=isbn;
+    private String publisher, isbn;//International Standard Book Number.
+
+    public Book(String dateOfPublication, String title, Publication relatedWork,
+                Author author, double fineValue, int editionNumber, String publisher, String isbn) {
+        super(dateOfPublication, title, relatedWork, author, fineValue);
+        this.editionNumber = editionNumber;
+        this.publisher = publisher;
+        this.isbn = isbn;
     }
 
     public int getEditionNumber() {
