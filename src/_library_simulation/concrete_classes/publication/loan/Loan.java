@@ -27,7 +27,7 @@ public class Loan {
                 this.publication = publication;
                 this.loanOwner = lendingOwner;
                 this.loanDateTime = LocalDateTime.now();
-                this.deliveryDate = this.loanDateTime.plusDays(quantityOfDays).toLocalDate();//7 days after lending was made
+                this.deliveryDate = this.loanDateTime.plusDays(quantityOfDays).toLocalDate();
                 this.renovations = new ArrayList<>();
                 this.active = true;
                 return true;
