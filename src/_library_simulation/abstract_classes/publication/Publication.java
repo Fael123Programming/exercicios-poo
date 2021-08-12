@@ -64,10 +64,10 @@ public abstract class Publication {
         return this.authors.add(newAuthor);
     }
 
-    public Author removeAuthor(String name) {
+    public Author removeAuthor(Author authorToRemove) {
         if (this.authors.isEmpty()) return null;
         for (Author author : this.authors) {
-            if (author.getName().equals(name)) {
+            if (author.getName().equals(authorToRemove.getName())) {
                 this.authors.remove(author);
                 return author;
             }

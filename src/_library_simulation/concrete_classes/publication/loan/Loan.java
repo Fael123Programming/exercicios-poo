@@ -19,8 +19,7 @@ public class Loan {
     private boolean active;
 
     public boolean lend(Publication publication, User lendingOwner, int quantityOfDays) {
-        //This method fills up the attributes of each object of this class themselves.
-        if(active || publication == null || lendingOwner == null || quantityOfDays == 0) return false;
+        if(this.active || publication == null || lendingOwner == null || quantityOfDays == 0) return false;
         if (publication.isAvailable()) {
             if (lendingOwner.canBorrow()) {
                 publication.setAvailable(false);
@@ -28,7 +27,7 @@ public class Loan {
                 this.publication = publication;
                 this.loanOwner = lendingOwner;
                 this.loanDateTime = LocalDateTime.now();
-                this.deliveryDate = this.loanDateTime.plus(Period.ofDays(quantityOfDays)).toLocalDate();
+                this.deliveryDate = this.loanDateTime.plusDays(quantityOfDays).toLocalDate();//7 days after lending was made
                 this.renovations = new ArrayList<>();
                 this.active = true;
                 return true;
@@ -38,17 +37,18 @@ public class Loan {
         throw new UnavailablePublicationException();
     }
 
-    public boolean renew(int additionalDays){
-        if(additionalDays <= 0 || !this.isActive()) return false;
-        if(this.isExpired()) throw new ExpiredLendingException();
+    public boolean renew(){
+        if(!this.isActive()) return false;
         if(this.renovations.size() == this.loanOwner.getLimitOfRenovations()) throw new RenovationsExceededException();
-        this.deliveryDate = this.deliveryDate.plusDays(additionalDays);
+        if(this.isExpired()) throw new ExpiredLendingException();
+        if(LocalDate.now().plusDays(7).isBefore(this.deliveryDate)) throw new InvalidRenovationDate();//It is too early to renew
+        this.deliveryDate = LocalDate.now().plusDays(7);
         this.renovations.add(LocalDateTime.now()); //Timestamping of this renovation
         return true;
     }
 
     public double finish(){
-        if(!this.isActive()) return 0;
+        if(!this.isActive()) return -1;
         double fineValue = 0;
         if(this.isExpired()){
             Period prd = Period.between(this.deliveryDate, LocalDate.now());

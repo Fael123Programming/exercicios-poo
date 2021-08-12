@@ -12,6 +12,9 @@ import _library_simulation.types_of_controllers.*;
 import _teaching_institution.Institution;
 
 import javax.swing.JOptionPane;
+import java.sql.SQLOutput;
+import java.time.LocalDate;
+
 /**
  * This is the project's main class wherein all controller classes perform their operations:
  * -> Each event related to lending (lend, end lending, renew lending, verify due lending and furthermore): LoanController;
