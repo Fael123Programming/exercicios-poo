@@ -7,6 +7,10 @@ public class Institution {
     private ArrayList<Department> departments;
     private ArrayList<Class> classes;
 
+    public Institution(String name){
+        this.name = name;
+    }
+
     public Institution(String name, Department department, Class cls) {
         this.name = name;
         this.departments = new ArrayList<>();

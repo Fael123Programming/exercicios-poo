@@ -1,6 +1,6 @@
 package _library_simulation.abstract_classes.publication;
 
-import _library_simulation.concrete_classes.author_of_publication.Author;
+import _library_simulation.concrete_classes.publication.author.Author;
 
 import java.util.ArrayList;
 
@@ -55,7 +55,7 @@ public abstract class Publication {
         this.title = newTitle;
     }
 
-    public ArrayList getAuthors() {
+    public ArrayList<Author> getAuthors() {
         return this.authors;
     }
 
@@ -75,13 +75,13 @@ public abstract class Publication {
         return null;
     }
 
-    public Publication[] getRelatedWorks() {
-        if (this.relatedWorks.isEmpty()) return null;
-        return (Publication[]) this.relatedWorks.toArray();
+    public ArrayList<Publication> getRelatedWorks() {
+        return this.relatedWorks;
     }
 
-    public void addRelatedWork(Publication newRelatedWork) {
-        if (newRelatedWork == null) return;
+    public boolean addRelatedWork(Publication newRelatedWork) {
+        if (newRelatedWork == null) return false;
         this.relatedWorks.add(newRelatedWork);
+        return true;
     }
 }

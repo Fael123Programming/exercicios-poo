@@ -1,7 +1,7 @@
-package _library_simulation.concrete_classes.types_of_publication;
+package _library_simulation.concrete_classes.publication.types;
 
 import _library_simulation.abstract_classes.publication.Publication;
-import _library_simulation.concrete_classes.author_of_publication.Author;
+import _library_simulation.concrete_classes.publication.author.Author;
 
 public class Book extends Publication {
     private int editionNumber;

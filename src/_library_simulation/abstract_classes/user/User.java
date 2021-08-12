@@ -1,27 +1,19 @@
 package _library_simulation.abstract_classes.user;
 
-import _library_simulation.concrete_classes.lending_of_publication.lending_main_class.Lending;
-
-import java.time.LocalDate;
-import java.time.Period;
-import java.util.ArrayList;
-
-import static java.lang.Math.abs;
-
 public abstract class User {
     //-> CommonUser can have at maximum, 3 lendings;
-    //-> EspecialUser doesn't have limit on it.
+    //-> EspecialUser doesn't have a limit on it.
     private String name, phone, email, cpf;
-    private ArrayList<Lending> lendings;
-    private int limitOfLendings;
+    private int totalOfLoans, limitOfLoans, limitOfRenovations;
 
-    public User(String name, String phone, String email, String cpf, int limitOfLendings) {
+    public User(String name, String phone, String email, String cpf, int limitOfLoans, int limitOfRenovations) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.cpf = cpf;
-        this.limitOfLendings = limitOfLendings;
-        this.lendings = new ArrayList<>();
+        this.limitOfLoans = limitOfLoans;
+        this.limitOfRenovations = limitOfRenovations;
+        this.totalOfLoans = 0;
     }
 
     public String getName() {
@@ -56,41 +48,24 @@ public abstract class User {
         this.cpf = newCpf;
     }
 
-    public int getLimitOfLendings() {
-        return this.limitOfLendings;
+    public int getLimitOfLoans() {
+        return this.limitOfLoans;
     }
 
-    public void setLimitOfLendings(int newLimit) {
-        this.limitOfLendings = newLimit;
+    public int getLimitOfRenovations(){return this.limitOfRenovations;}
+
+    public int getTotalOfLoans() {
+        return this.totalOfLoans;
     }
 
-    public ArrayList getLendings() {
-        return this.lendings;
+    public boolean setTotalOfLoans(int newQuantity){
+        if(newQuantity < 0) return false;
+        this.totalOfLoans = newQuantity;
+        return true;
     }
 
     public boolean canBorrow() {
-        return this.lendings.size() < this.limitOfLendings || this.limitOfLendings == -1;
-    }
-
-    public double endLending(String titleOfPublication) {
-        if (this.lendings.isEmpty()) return 0.0;
-        for (Lending toEnd : this.lendings) {
-            if (toEnd.getPublication().getTitle().equals(titleOfPublication)) {
-                toEnd.getPublication().setAvailable(true);
-                this.lendings.remove(toEnd);
-                return this.calculateFine(toEnd);
-            }
-        }
-        return 0.0;
-    }
-
-    private double calculateFine(Lending lending) {
-        if (lending == null) return 0.0;
-        if (!lending.isCreated()) return 0.0;
-        int days = Period.between(LocalDate.now(), lending.getDeliveryDate()).getDays();
-        if (days < 0) {//There's a debt to pay
-            return abs(days) * lending.getPublication().getFineValue();
-        }
-        return 0.0;
+        return this.totalOfLoans < this.limitOfLoans || this.limitOfLoans == -1;
+        //limitOfLendings == -1 is used for especial users who can borrow unlimitedly
     }
 }
