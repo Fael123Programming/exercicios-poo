@@ -1,7 +1,7 @@
-package _banksystemproject.aux_classes.accounts;
+package _banksystemproject.classes.accounts;
 
-import _banksystemproject.aux_classes.ownersofaccounts.Customer;
-import _banksystemproject.aux_classes.ownersofaccounts.PhysicalPerson;
+import _banksystemproject.classes.ownersofaccounts.Customer;
+import _banksystemproject.classes.ownersofaccounts.PhysicalPerson;
 
 public class EspecialAccount extends EspecialAccountGeneric {
     public EspecialAccount(PhysicalPerson owner, int accountNumber) {

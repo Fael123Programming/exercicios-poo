@@ -1,6 +1,6 @@
-package _banksystemproject.aux_classes.accounts;
+package _banksystemproject.classes.accounts;
 
-import _banksystemproject.aux_classes.ownersofaccounts.Customer;
+import _banksystemproject.classes.ownersofaccounts.Customer;
 
 public abstract class EspecialAccountGeneric extends Account {
     public EspecialAccountGeneric(Customer owner, int accountNumber) {

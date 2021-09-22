@@ -1,9 +1,10 @@
-package _banksystemproject.aux_classes.accounts;
+package _banksystemproject.classes.accounts;
 
-import _banksystemproject.aux_classes.ownersofaccounts.Customer;
-import _banksystemproject.aux_classes.ownersofaccounts.PhysicalPerson;
+import _banksystemproject.classes.ownersofaccounts.Customer;
+import _banksystemproject.classes.ownersofaccounts.PhysicalPerson;
+import _banksystemproject.interfaces.ITaxable;
 
-public class CurrentAccount extends Account {
+public class CurrentAccount extends Account implements ITaxable {
     public CurrentAccount(PhysicalPerson owner, int accountNumber) {
         super(owner, accountNumber);
     }
@@ -22,5 +23,10 @@ public class CurrentAccount extends Account {
         if (newOwner.getClass().equals(PhysicalPerson.class)) {
             super.setOwner(newOwner);
         } else throw new IllegalArgumentException("## Invalid Argument ##");
+    }
+
+    @Override
+    public double getTaxValue(){
+        return super.getCurrentAmount() * 0.01;
     }
 }

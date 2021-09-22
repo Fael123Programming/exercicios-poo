@@ -1,6 +1,7 @@
-package _banksystemproject.aux_classes.accounts;
+package _banksystemproject.classes.accounts;
 
-import _banksystemproject.aux_classes.ownersofaccounts.Customer;
+import _banksystemproject.classes.ownersofaccounts.Customer;
+import _banksystemproject.exceptions.InsufficientFundsException;
 
 public abstract class Account implements Comparable<Account> {
     private static int numberOfAccounts = 0;
@@ -29,24 +30,20 @@ public abstract class Account implements Comparable<Account> {
         Account.numberOfAccounts++;
     }
 
-    public boolean withdraw(double quant) {
-        if (quant <= 0 || quant > this.valueEspecialCheck + this.getCurrentAmount()) return false;
-        this.setCurrentAmount(this.getCurrentAmount() - quant);
-        return true;
+    public void withdraw(double quantity) throws InsufficientFundsException,IllegalArgumentException {
+        if(quantity <= 0) throw new IllegalArgumentException("<<<<< Quantia inválida >>>>>");
+        if(quantity > this.valueEspecialCheck + this.currentAmount) throw new InsufficientFundsException(quantity);
+        this.currentAmount -= quantity;
     }
 
-    public boolean transfer(Account targetAccount, double quant) {
-        if (this.withdraw(quant)) {
-            targetAccount.deposit(quant);
-            return true;
-        }
-        return false;
+    public void transfer(Account targetAccount, double quantity) throws InsufficientFundsException,IllegalArgumentException{
+        this.withdraw(quantity);
+        targetAccount.deposit(quantity);
     }
 
-    public boolean deposit(double quant) {
-        if (quant <= 0) return false;
-        this.currentAmount += quant;
-        return true;
+    public void deposit(double quantity) throws IllegalArgumentException{
+        if (quantity <= 0) throw new IllegalArgumentException("<<<<< Quantia inválida >>>>>");
+        this.currentAmount += quantity;
     }
 
     public static int getNumberOfAccounts() {
@@ -90,29 +87,20 @@ public abstract class Account implements Comparable<Account> {
     }
 
     public String getType() {
-        String type = this.getClass().descriptorString().split("/")[2].replace(";", "");
-        //It catches only the name of the class object 'this' belongs to.
-        switch (type) {
-            case "CurrentAccount":
-                type = "Conta corrente";
-                break;
-            case "EspecialAccount":
-                type = "Conta especial/Pessoa fisica";
-                break;
-            case "BusinessAccount":
-                type = "Conta especial/Pessoa juridica";
-                break;
-            case "SavingsAccount":
-                type = "Conta poupança";
-                break;
-            default:
-                type = null;
+        if (CurrentAccount.class.equals(this.getClass())) {
+            return "Conta Corrente";
+        } else if (EspecialAccount.class.equals(this.getClass())) {
+            return "Conta Especial/Pessoa Fisica";
+        } else if (BusinessAccount.class.equals(this.getClass())) {
+            return "Conta Especial/Pessoa Juridica";
+        } else if (SavingsAccount.class.equals(this.getClass())) {
+            return "Conta Poupança";
         }
-        return type;
+        return null;
     }
 
     @Override
-    public int compareTo(Account accountToCompareWith) {//It sorts from greater amounts to less ones
+    public int compareTo(Account accountToCompareWith) {//It sorts from greater amounts to fewer ones
         if (this.currentAmount > accountToCompareWith.getCurrentAmount()) return -1;
         else if (this.currentAmount < accountToCompareWith.getCurrentAmount()) return 1;
         return 0;
