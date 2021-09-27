@@ -100,10 +100,8 @@ public abstract class Account implements Comparable<Account> {
     }
 
     @Override
-    public int compareTo(Account accountToCompareWith) {//It sorts from greater amounts to fewer ones
-        if (this.currentAmount > accountToCompareWith.getCurrentAmount()) return -1;
-        else if (this.currentAmount < accountToCompareWith.getCurrentAmount()) return 1;
-        return 0;
+    public int compareTo(Account accountToCompareWith) {//It sorts accounts by their owner names, alphabetically.
+        return this.owner.getName().compareTo(accountToCompareWith.getOwner().getName());
     }
 
     @Override

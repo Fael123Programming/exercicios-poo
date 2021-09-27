@@ -244,7 +244,7 @@ public class BankSystem {
             return;
         }
         Collections.sort(BankSystem.accounts);
-        System.out.println("<<<<< Contas cadastradas no sistema ordenadas do maior para o menor saldo >>>>>");
+        System.out.println("<<<<< Contas cadastradas no sistema ordenadas alfabeticamente >>>>>");
         for (Account account : BankSystem.accounts) {
             System.out.println(account + "\n");
         }
