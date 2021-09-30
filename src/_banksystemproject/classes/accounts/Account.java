@@ -3,7 +3,9 @@ package _banksystemproject.classes.accounts;
 import _banksystemproject.classes.ownersofaccounts.Customer;
 import _banksystemproject.exceptions.InsufficientFundsException;
 
-public abstract class Account implements Comparable<Account> {
+import java.util.Objects;
+
+public abstract class Account {
     private static int numberOfAccounts = 0;
     private int accountNumber;
     private double currentAmount, valueEspecialCheck;
@@ -70,10 +72,6 @@ public abstract class Account implements Comparable<Account> {
         return this.currentAmount;
     }
 
-    protected void setCurrentAmount(double newAmount) {
-        this.currentAmount = newAmount;
-    }
-
     public String getAgency() {
         return this.agency;
     }
@@ -100,8 +98,17 @@ public abstract class Account implements Comparable<Account> {
     }
 
     @Override
-    public int compareTo(Account accountToCompareWith) {//It sorts accounts by their owner names, alphabetically.
-        return this.owner.getName().compareTo(accountToCompareWith.getOwner().getName());
+    public int hashCode() {
+        return Objects.hash(this.accountNumber, this.agency);
+        //This method utilizes its arguments to generate a hash code to an object of this class.
+    }
+
+    @Override
+    public boolean equals(Object toCompare) {
+        if(!(toCompare instanceof Account casted)) {
+            return false;
+        }
+        return (this.accountNumber == casted.getAccountNumber() && this.agency.equals(casted.getAgency()));
     }
 
     @Override

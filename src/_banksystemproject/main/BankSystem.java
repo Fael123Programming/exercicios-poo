@@ -9,21 +9,28 @@ import _banksystemproject.exceptions.AccountNotFoundException;
 import _banksystemproject.exceptions.InsufficientFundsException;
 
 import javax.swing.JOptionPane;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class BankSystem {
-    private static final List<Account> accounts = new ArrayList<>();
+    private static final Map<Integer,Account> accounts = new HashMap<>();
+    //When searching objects maps are faster than lists.
+    //In this case, Integer refers to the type of key (which will be the number of the account) and Account
+    //refers to the value a key points to.
+
     public static void main(String[] args) {
+//        Account mine = new SavingsAccount(new PhysicalPerson("Rafael","123","11/06/2002"),12345,"CN-201 AW56");
+//        Account yours = new CurrentAccount(new PhysicalPerson("Ana","456","12/04/1899"),123456,"CN-201 AW56");
+//        System.out.println("Are mine and yours equal? " + mine.equals(yours));
+//        System.out.println(mine.hashCode() + " " + yours.hashCode());*/
+//        If the account number and agency are the same, then those objects will be deemed as equal by the method of the same
+//        name. Also, they will have the same hashCode (which was made based on these very attributes).
         while (true) {
             switch (BankSystem.menu("""
                     <<<<< Sistema de Banco 2.0.0 >>>>>
                     1. Criar nova conta
                     2. Exibir informacoes de uma conta
                     3. Movimentar conta
-                    4. Tabela de contas criadas
-                    5. Sair do sistema""")) {
+                    4. Sair do sistema""")) {
                 case 1:
                     BankSystem.createAccount();
                     break;
@@ -34,9 +41,6 @@ public class BankSystem {
                     BankSystem.movementAccount();//Here withdraw and deposit methods were implemented
                     break;
                 case 4:
-                    BankSystem.tableOfAccounts();
-                    break;
-                case 5:
                     BankSystem.exit();
                 default:
                     BankSystem.showMessage("<<<<< Escolha uma opcao valida >>>>>");
@@ -81,15 +85,15 @@ public class BankSystem {
     }
 
     private static Account getAccountThroughItsNumber(int numberOfAccount) throws AccountNotFoundException {
-        for (Account account : BankSystem.accounts) {
-            if (account.getAccountNumber() == numberOfAccount) return account;
+        Account wanted = BankSystem.accounts.get(numberOfAccount);
+        if(wanted == null) {
+            throw new AccountNotFoundException();
         }
-        throw new AccountNotFoundException();
+        return wanted;
     }
 
     private static boolean isThisNumberBeingUsed(int numberOfAnAccount) {
-        for(Account acc : BankSystem.accounts) if(acc.getAccountNumber() == numberOfAnAccount) return true;
-        return false;
+        return BankSystem.accounts.containsKey(numberOfAnAccount);
     }
 
     //Elemental functions: they deal with the objects that compose the system
@@ -113,7 +117,7 @@ public class BankSystem {
                     dateOfBirth = BankSystem.inputDialog("<<<<< Criar Nova Conta Corrente >>>>>\nInsira sua data de nascimento (formato dd/mm/aaaa)");
                     agency = BankSystem.inputDialog("<<<<< Criar Nova Conta Corrente >>>>>\nInsira o nome da agencia");
                     newAccount = new CurrentAccount(new PhysicalPerson(ownerName, cpf, dateOfBirth), accountNumber, agency);
-                    BankSystem.accounts.add(newAccount);
+                    BankSystem.accounts.put(accountNumber,newAccount); //key is the account number. Value is the account itself.
                     BankSystem.showMessage(String.format("<<<<< Conta Corrente criada com sucesso >>>>>\n Numero da conta: %d", accountNumber));
                     break;
                 case 2:
@@ -122,7 +126,7 @@ public class BankSystem {
                     dateOfBirth = BankSystem.inputDialog("<<<<< Criar Nova Conta Poupança >>>>>\nInsira sua data de nascimento (formato dd/mm/aaaa)");
                     agency = BankSystem.inputDialog("<<<<< Criar Nova Conta Poupança >>>>>\nInsira o nome da agencia");
                     newAccount = new SavingsAccount(new PhysicalPerson(ownerName, cpf, dateOfBirth), accountNumber, agency);
-                    BankSystem.accounts.add(newAccount);
+                    BankSystem.accounts.put(accountNumber,newAccount);
                     BankSystem.showMessage(String.format("<<<<< Conta Poupança criada com sucesso >>>>>\nNumero da conta: %d\nRendimento: %.2f%%", accountNumber, SavingsAccount.getYieldPercentage()));
                     break;
                 case 3:
@@ -133,7 +137,7 @@ public class BankSystem {
                     agency = BankSystem.inputDialog("<<<<< Criar Nova Conta Especial (Pessoa Fisica) >>>>>\nInsira o nome da agencia");
                     valueEspecialCheck = BankSystem.inputDialogForFloatNumber("<<<<< Criar Nova Conta Especial (Pessoa Fisica) >>>>>\nInsira o valor do cheque especial");
                     newAccount = new EspecialAccount(new PhysicalPerson(ownerName, cpf, dateOfBirth), accountNumber, agency, valueEspecialCheck);
-                    BankSystem.accounts.add(newAccount);
+                    BankSystem.accounts.put(accountNumber,newAccount);
                     BankSystem.showMessage(String.format("<<<<< Conta Especial/Pessoa Fisica criada com sucesso >>>>>\nNumero da conta: %d\nCheque especial: R$ %.2f", accountNumber, valueEspecialCheck));
                     break;
                 case 4:
@@ -144,7 +148,7 @@ public class BankSystem {
                     agency = BankSystem.inputDialog("<<<<< Criar Nova Conta Especial (Pessoa Juridica) >>>>>\nInsira o nome da agencia");
                     valueEspecialCheck = BankSystem.inputDialogForFloatNumber("<<<<< Criar Nova Conta Especial (Pessoa Juridica) >>>>>\nInsira o valor do cheque especial");
                     newAccount = new BusinessAccount(new LegalPerson(ownerName, cnpj, dateOfCreation), accountNumber, agency, valueEspecialCheck);
-                    BankSystem.accounts.add(newAccount);
+                    BankSystem.accounts.put(accountNumber,newAccount);
                     BankSystem.showMessage(String.format("<<<<< Conta Especial/Pessoa Juridica criada com sucesso >>>>>\nNumero da conta: %d\nCheque especial: R$ %.2f", accountNumber, valueEspecialCheck));
                     break;
                 case 5: return;
@@ -236,19 +240,5 @@ public class BankSystem {
         }catch(AccountNotFoundException | InsufficientFundsException | IllegalArgumentException exception) {
             BankSystem.showMessage(exception.getMessage());
         }
-    }
-
-    private static void tableOfAccounts() {
-        if (BankSystem.accounts.isEmpty()) {
-            BankSystem.showMessage("<<<<< Nenhuma conta foi cadastrada >>>>>");
-            return;
-        }
-        Collections.sort(BankSystem.accounts);
-        System.out.println("<<<<< Contas cadastradas no sistema ordenadas alfabeticamente >>>>>");
-        for (Account account : BankSystem.accounts) {
-            System.out.println(account + "\n");
-        }
-        System.out.println("\n");
-        BankSystem.showMessage("<<<<< Tabela de contas desenhada no console ou prompt de comando >>>>>");
     }
 }
