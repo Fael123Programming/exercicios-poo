@@ -3,16 +3,16 @@ package _banksystemproject.classes.accounts;
 import _banksystemproject.classes.ownersofaccounts.Customer;
 import _banksystemproject.exceptions.InsufficientFundsException;
 
-import java.util.Objects;
+import java.util.*;
 
-public abstract class Account {
+public abstract class Account implements Comparable<Account> {
     private static int numberOfAccounts = 0;
     private int accountNumber;
     private double currentAmount, valueEspecialCheck;
     private String agency;
     private Customer owner;
 
-    public Account() {//Empty constructor function
+    public Account() { //Empty constructor function
         Account.numberOfAccounts++;
     }
 
@@ -99,8 +99,7 @@ public abstract class Account {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.accountNumber, this.agency);
-        //This method utilizes its arguments to generate a hash code to an object of this class.
+        return Objects.hash(this.accountNumber, this.agency); //This method utilizes its arguments to generate a hash code to an object of this class.
     }
 
     @Override
@@ -119,5 +118,10 @@ public abstract class Account {
                         + "--------------------------------------",
                 this.owner.getName(), this.currentAmount,
                 this.accountNumber, this.getType(), this.agency);
+    }
+
+    @Override
+    public int compareTo(Account toCompare) {
+        return Integer.compare(this.hashCode(),toCompare.hashCode());
     }
 }
