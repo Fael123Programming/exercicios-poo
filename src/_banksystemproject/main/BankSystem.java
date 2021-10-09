@@ -8,11 +8,15 @@ import _banksystemproject.classes.ownersofaccounts.PhysicalPerson;
 import _banksystemproject.exceptions.AccountNotFoundException;
 import _banksystemproject.exceptions.InsufficientFundsException;
 
+import _banksystemproject.data_persistence.FileHandler;
+
 import javax.swing.JOptionPane;
+import java.io.*;
 import java.util.*;
 
 public class BankSystem {
     private static final Map<Integer,Account> accounts = new HashMap<>();
+    private static final String accountsFilePath = "C:/Users/rafae/OneDrive/Documents/PRG/java/exercicios-poo/src/_banksystemproject/data_persistence/accounts.txt";
     //When searching objects maps are faster than lists.
     //In this case, Integer refers to the type of key (which will be the number of the account) and Account
     //refers to the value a key points to.
@@ -96,7 +100,15 @@ public class BankSystem {
         return BankSystem.accounts.containsKey(numberOfAnAccount);
     }
 
-    //Elemental functions: they deal with the objects that compose the system
+    private static void bringAccountsBack() {
+        try (Scanner fileScan = new Scanner(new File(BankSystem.accountsFilePath))) {
+
+        }catch(FileNotFoundException e) {
+            System.out.println("Unfortunately, the file wherein all accounts are record in was not found!");
+            System.exit(-1);
+        }
+    }
+    //Elemental functions: they deal with the objects that compose the system.
     private static void createAccount() {
         Account newAccount;
         int typeOfAccount, accountNumber;
