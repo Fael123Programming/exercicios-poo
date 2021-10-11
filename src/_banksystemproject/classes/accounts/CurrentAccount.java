@@ -1,10 +1,10 @@
 package _banksystemproject.classes.accounts;
 
-import _banksystemproject.classes.ownersofaccounts.Customer;
-import _banksystemproject.classes.ownersofaccounts.PhysicalPerson;
+import _banksystemproject.classes.ownersofaccounts.*;
 import _banksystemproject.interfaces.ITaxable;
 
 public class CurrentAccount extends Account implements ITaxable {
+
     public CurrentAccount(PhysicalPerson owner, int accountNumber) {
         super(owner, accountNumber);
     }
@@ -20,13 +20,12 @@ public class CurrentAccount extends Account implements ITaxable {
 
     @Override
     public void setOwner(Customer newOwner) {
-        if (newOwner.getClass().equals(PhysicalPerson.class)) {
-            super.setOwner(newOwner);
-        } else throw new IllegalArgumentException("## Invalid Argument ##");
+        if(!(newOwner instanceof PhysicalPerson)) throw new IllegalArgumentException("Invalid Argument!");
+        super.setOwner(newOwner);
     }
 
     @Override
     public double getTaxValue(){
-        return super.getCurrentAmount() * 0.01;
+        return super.getCurrentBalance() * 0.01;
     }
 }

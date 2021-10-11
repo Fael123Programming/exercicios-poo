@@ -1,15 +1,14 @@
 package _banksystemproject.classes.accounts;
 
-import _banksystemproject.classes.ownersofaccounts.Customer;
-import _banksystemproject.classes.ownersofaccounts.PhysicalPerson;
+import _banksystemproject.classes.ownersofaccounts.*;
 
 public class EspecialAccount extends EspecialAccountGeneric {
+
     public EspecialAccount(PhysicalPerson owner, int accountNumber) {
         super(owner, accountNumber);
     }
 
-    public EspecialAccount(PhysicalPerson owner, int accountNumber, String agency,
-                           double valueEspecialCheck) {
+    public EspecialAccount(PhysicalPerson owner, int accountNumber, String agency, double valueEspecialCheck) {
         super(owner, accountNumber, agency, valueEspecialCheck);
     }
 
@@ -19,9 +18,8 @@ public class EspecialAccount extends EspecialAccountGeneric {
     }
 
     @Override
-    public void setOwner(Customer newOwner) {
-        if (newOwner.getClass().equals(PhysicalPerson.class)) {
-            super.setOwner(newOwner);
-        } else throw new IllegalArgumentException("## Invalid Argument ##");
+    public void setOwner(Customer newOwner) throws IllegalArgumentException {
+        if (!(newOwner instanceof PhysicalPerson)) throw new IllegalArgumentException("Invalid argument!");
+        super.setOwner(newOwner); //As setOwner belongs initially to the super class, it would be better to reference it already!
     }
 }

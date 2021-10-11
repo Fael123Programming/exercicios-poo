@@ -1,33 +1,21 @@
 package _banksystemproject.main;
-//There are two types of owners.
 
 import _banksystemproject.classes.accounts.*;
-import _banksystemproject.classes.ownersofaccounts.LegalPerson;
-import _banksystemproject.classes.ownersofaccounts.PhysicalPerson;
+import _banksystemproject.classes.ownersofaccounts.*;
 
-import _banksystemproject.exceptions.AccountNotFoundException;
-import _banksystemproject.exceptions.InsufficientFundsException;
-
+import _banksystemproject.exceptions.*;
 import _banksystemproject.data_persistence.FileHandler;
 
 import javax.swing.JOptionPane;
 import java.io.*;
+import java.time.LocalDate;
 import java.util.*;
 
 public class BankSystem {
-    private static final Map<Integer,Account> accounts = new HashMap<>();
+    private static final Set<Integer> numbersOfAccounts = new HashSet<>(); //This set above contains every number of accounts already created and record.
     private static final String accountsFilePath = "C:/Users/rafae/OneDrive/Documents/PRG/java/exercicios-poo/src/_banksystemproject/data_persistence/accounts.txt";
-    //When searching objects maps are faster than lists.
-    //In this case, Integer refers to the type of key (which will be the number of the account) and Account
-    //refers to the value a key points to.
 
     public static void main(String[] args) {
-//        Account mine = new SavingsAccount(new PhysicalPerson("Rafael","123","11/06/2002"),12345,"CN-201 AW56");
-//        Account yours = new CurrentAccount(new PhysicalPerson("Ana","456","12/04/1899"),123456,"CN-201 AW56");
-//        System.out.println("Are mine and yours equal? " + mine.equals(yours));
-//        System.out.println(mine.hashCode() + " " + yours.hashCode());*/
-//        If the account number and agency are the same, then those objects will be deemed as equal by the method of the same
-//        name. Also, they will have the same hashCode (which was made based on these very attributes).
         while (true) {
             switch (BankSystem.menu("""
                     <<<<< Sistema de Banco 2.0.0 >>>>>
@@ -36,7 +24,7 @@ public class BankSystem {
                     3. Movimentar conta
                     4. Sair do sistema""")) {
                 case 1:
-                    BankSystem.createAccount();
+                    //BankSystem.createAccount();
                     break;
                 case 2:
                     BankSystem.informationOfAnAccount();
@@ -80,7 +68,7 @@ public class BankSystem {
 
     private static int generateAccountNumber(int firstBound, int secondBound) {
         int accountNumber = (int) (firstBound + Math.random() * ((secondBound + 1) - firstBound)); //It Generates a number between firstBound and secondBound valuesEx.: 1000 and 2000
-        if (BankSystem.accounts.isEmpty()) return accountNumber;
+        if (BankSystem.numbersOfAccounts.isEmpty()) return accountNumber;
         while (BankSystem.isThisNumberBeingUsed(accountNumber)) {
             //It will repeat whereas the current value of accountNumber already exists belonging to an account looking out for an unprecedented number
             accountNumber = (int) (firstBound + Math.random() * ((secondBound + 1) - firstBound));
@@ -89,27 +77,18 @@ public class BankSystem {
     }
 
     private static Account getAccountThroughItsNumber(int numberOfAccount) throws AccountNotFoundException {
-        Account wanted = BankSystem.accounts.get(numberOfAccount);
-        if(wanted == null) {
-            throw new AccountNotFoundException();
-        }
-        return wanted;
+//        Account wanted = BankSystem.accounts.get(numberOfAccount);
+//        if(wanted == null) throw new AccountNotFoundException();
+//        Implement a binary search in the file accounts.txt.
+        return null;
     }
 
     private static boolean isThisNumberBeingUsed(int numberOfAnAccount) {
-        return BankSystem.accounts.containsKey(numberOfAnAccount);
+        return BankSystem.numbersOfAccounts.contains(numberOfAnAccount);
     }
 
-    private static void bringAccountsBack() {
-        try (Scanner fileScan = new Scanner(new File(BankSystem.accountsFilePath))) {
-
-        }catch(FileNotFoundException e) {
-            System.out.println("Unfortunately, the file wherein all accounts are record in was not found!");
-            System.exit(-1);
-        }
-    }
     //Elemental functions: they deal with the objects that compose the system.
-    private static void createAccount() {
+    /*private static void createAccount() {
         Account newAccount;
         int typeOfAccount, accountNumber;
         while (true) {
@@ -167,10 +146,10 @@ public class BankSystem {
                 default: BankSystem.showMessage("<<<<< Escolha uma opçao valida >>>>>");
             }
         }
-    }
+    }*/
 
     private static void informationOfAnAccount() {
-        if (BankSystem.accounts.isEmpty()) {
+        if (BankSystem.numbersOfAccounts.isEmpty()) {
             BankSystem.showMessage("<<<<< Nenhuma conta foi cadastrada >>>>>");
             return;
         }
@@ -178,14 +157,14 @@ public class BankSystem {
                 + " o numero da conta");
         try {
             Account requiredAccount = BankSystem.getAccountThroughItsNumber(numberOfAccount);
-            BankSystem.showMessage("<<<<< Informacoes sobre conta >>>>>\n" + requiredAccount);
+            BankSystem.showMessage("<<<<< Informacoes sobre conta >>>>>\n" + requiredAccount.getStandardized());
         }catch(AccountNotFoundException exception) {
             BankSystem.showMessage(exception.getMessage());
         }
     }
 
     private static void movementAccount() {
-        if (BankSystem.accounts.isEmpty()) {
+        if (BankSystem.numbersOfAccounts.isEmpty()) {
             BankSystem.showMessage("<<<<< Nenhuma conta foi cadastrada >>>>>");
             return;
         }
@@ -214,9 +193,9 @@ public class BankSystem {
         try {
             Account requiredAccount = BankSystem.getAccountThroughItsNumber(numberOfAccount); //This line can throw an AccountNotFoundException!
             double amountToGet = BankSystem.inputDialogForFloatNumber(String.format("<<<<< Sacar quantia de uma conta >>>>>%n"
-                    + "%s%nInsira a quantia a sacar", requiredAccount));
+                    + "%s%nInsira a quantia a sacar", requiredAccount.getStandardized()));
             requiredAccount.withdraw(amountToGet); //This line can throw an InsufficientFundsException or an IllegalArgumentException!
-            BankSystem.showMessage(String.format("<<<<< Sacar quantia de uma conta >>>>>%nSaque efetuado com sucesso!%n" + "Saldo atual da conta: R$%.2f", requiredAccount.getCurrentAmount())); //If everything went as expected, we'll get here!
+            BankSystem.showMessage(String.format("<<<<< Sacar quantia de uma conta >>>>>%nSaque efetuado com sucesso!%n" + "Saldo atual da conta: R$%.2f", requiredAccount.getCurrentBalance())); //If everything went as expected, we'll get here!
         }catch(AccountNotFoundException | InsufficientFundsException | IllegalArgumentException exception) {
             BankSystem.showMessage(exception.getMessage());
         }
@@ -225,17 +204,17 @@ public class BankSystem {
     private static void depositMoneyInAnAccount() {
         int numberOfAccount = BankSystem.inputDialogForIntegerNumber("<<<<< Depositar quantia em uma conta >>>>>\nInsira o numero da conta");
         try {
-            Account requiredAccount = BankSystem.getAccountThroughItsNumber(numberOfAccount); //This line can throw an AccountNotFoundException
-            double amountToDeposit = BankSystem.inputDialogForFloatNumber(String.format("<<<<< Depositar quantia em uma conta >>>>>%n%s%nInsira a quantia a depositar", requiredAccount));
+            Account requiredAccount = BankSystem.getAccountThroughItsNumber(numberOfAccount); //This line can throw an AccountNotFoundException.
+            double amountToDeposit = BankSystem.inputDialogForFloatNumber(String.format("<<<<< Depositar quantia em uma conta >>>>>%n%s%nInsira a quantia a depositar", requiredAccount.getStandardized()));
             requiredAccount.deposit(amountToDeposit); //This line can throw an IllegalArgumentException
-            BankSystem.showMessage(String.format("<<<<< Depositar quantia em uma conta >>>>>%nDeposito efetuado com sucesso!%nSaldo atual da conta: R$%.2f", requiredAccount.getCurrentAmount()));
+            BankSystem.showMessage(String.format("<<<<< Depositar quantia em uma conta >>>>>%nDeposito efetuado com sucesso!%nSaldo atual da conta: R$%.2f", requiredAccount.getCurrentBalance()));
         }catch(AccountNotFoundException | IllegalArgumentException exception) {
             BankSystem.showMessage(exception.getMessage());
         }
     }
 
     private static void transferMoneyBetweenAccounts() {
-        if (BankSystem.accounts.size() == 1) {
+        if (BankSystem.numbersOfAccounts.size() == 1) {
             BankSystem.showMessage("<<<<< Apenas uma conta foi cadastrada >>>>>");
             return;
         }
@@ -246,9 +225,9 @@ public class BankSystem {
             int numberOfAccountToReceiveAmount = BankSystem.inputDialogForIntegerNumber(String.format("<<<<< Transferir"
                     + " de uma conta para outra >>>>>%nInsira o numero da conta receptora"));
             Account accountToReceiveAmount = BankSystem.getAccountThroughItsNumber(numberOfAccountToReceiveAmount);
-            double amountToTransfer = BankSystem.inputDialogForFloatNumber(String.format("<<<<< Transferir de uma conta para outra >>>>>%n%n> Conta depositante <%n%s%n> Conta receptora <%n%s%nInsira a quantia a transferir", accountToTransferWith,accountToReceiveAmount));
-            accountToTransferWith.transfer(accountToReceiveAmount,amountToTransfer);
-            BankSystem.showMessage(String.format("<<<<< Transferencia realizada com sucesso! >>>>>%nConta depositante: saldo atual (R$%.2f)%nConta receptora: saldo atual (R$%.2f)", accountToTransferWith.getCurrentAmount(), accountToReceiveAmount.getCurrentAmount()));
+            double amountToTransfer = BankSystem.inputDialogForFloatNumber(String.format("<<<<< Transferir de uma conta para outra >>>>>%n%n> Conta depositante <%n%s%n> Conta receptora <%n%s%nInsira a quantia a transferir", accountToTransferWith.getStandardized(),accountToReceiveAmount.getStandardized()));
+            accountToTransferWith.transfer(accountToReceiveAmount, amountToTransfer);
+            BankSystem.showMessage(String.format("<<<<< Transferencia realizada com sucesso! >>>>>%nConta depositante: saldo atual (R$%.2f)%nConta receptora: saldo atual (R$%.2f)", accountToTransferWith.getCurrentBalance(), accountToReceiveAmount.getCurrentBalance()));
         }catch(AccountNotFoundException | InsufficientFundsException | IllegalArgumentException exception) {
             BankSystem.showMessage(exception.getMessage());
         }

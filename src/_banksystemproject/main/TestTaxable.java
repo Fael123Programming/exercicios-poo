@@ -6,7 +6,7 @@ import _banksystemproject.classes.ownersofaccounts.PhysicalPerson;
 import _banksystemproject.interfaces.ITaxable;
 
 public class TestTaxable {
-    public static void main(String[] args) {
+    public static void main(String[] args) {/*
         PhysicalPerson me = new PhysicalPerson("Rafael Fonseca","064.854.071-54","6/11/2002");
         LifeInsurance lf = new LifeInsurance(5000,me,1);
         CurrentAccount cc = new CurrentAccount(me,12345,"Caldas Novas");
@@ -16,6 +16,6 @@ public class TestTaxable {
         ITaxable itax = lf;
         System.out.println("Through interface reference: " + itax.getTaxValue());
         itax = cc;
-        System.out.println("Through interface reference: " + itax.getTaxValue());
+        System.out.println("Through interface reference: " + itax.getTaxValue());*/
     }
 }

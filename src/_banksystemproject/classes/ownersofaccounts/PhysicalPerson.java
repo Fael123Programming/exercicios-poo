@@ -1,38 +1,25 @@
 package _banksystemproject.classes.ownersofaccounts;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class PhysicalPerson extends Customer {
-    private String cpf;
-    private String dateOfBirth;//In format dd/mm/aaaa
+    private String CPF;
 
-    public PhysicalPerson(String name, String cpf) {
-        super(name);
-        this.cpf = cpf;
+    public PhysicalPerson(String name, LocalDate dateOfBirth, String CPF) {
+        super(name, dateOfBirth);
+        this.CPF = CPF;
     }
 
-    public PhysicalPerson(String name, String cpf, String dateOfBirth) {
-        this(name, cpf);
-        this.dateOfBirth = dateOfBirth;
+    public String getCPF() {
+        return this.CPF;
     }
 
-    public String getCpf() {
-        return this.cpf;
+    public void setCPF(String CPF) {
+        this.CPF = CPF;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getDateOfBirth() {
-        return this.dateOfBirth;
-    }
-
-    public int getAge() {
-        if (this.dateOfBirth == null) return -1;
-        Date dt = new Date();
-        return Integer.parseInt(dt.toString().split(" ")[5]) -
-                Integer.parseInt(this.dateOfBirth.split("/")[2]);
-        //That means: current year minus year person was born.
+    @Override
+    public String toString(){
+        return super.toString() + ", CPF: " + this.CPF + "}";
     }
 }

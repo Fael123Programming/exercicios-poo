@@ -1,23 +1,22 @@
 package _banksystemproject.classes.accounts;
 
-import _banksystemproject.classes.ownersofaccounts.Customer;
-import _banksystemproject.classes.ownersofaccounts.PhysicalPerson;
+import _banksystemproject.classes.ownersofaccounts.*;
 
-public class SavingsAccount extends Account {
+public class SavingsAccount extends CurrentAccount {
     //Change it, setting this account as subclass of class currentAccount instead.
-    private static double yieldPercentage = 0.005;
+    private static double yieldPercentage = 0.005; //0.5 %
 
     public SavingsAccount(PhysicalPerson owner, int accountNumber) {
         super(owner, accountNumber);
     }
 
     public SavingsAccount(PhysicalPerson owner, int accountNumber, String agency) {
-        super(owner, accountNumber, agency, 0.0);
+        super(owner, accountNumber, agency);
     }
 
-    public boolean makeMoney() {
-        if (super.getCurrentAmount() == 0) return false;
-        super.deposit(super.getCurrentAmount() * SavingsAccount.yieldPercentage);
+    public boolean yieldMoney() {
+        if (super.getCurrentBalance() == 0) return false;
+        super.deposit(super.getCurrentBalance() * SavingsAccount.yieldPercentage);
         return true;
     }
 
@@ -30,14 +29,8 @@ public class SavingsAccount extends Account {
     }
 
     @Override
-    public PhysicalPerson getOwner() {
-        return (PhysicalPerson) super.getOwner();
-    }
-
-    @Override
-    public void setOwner(Customer newOwner) {
-        if (newOwner.getClass().equals(PhysicalPerson.class)) {
-            super.setOwner(newOwner);
-        } else throw new IllegalArgumentException("## Invalid Argument ##");
+    public void setOwner(Customer newOwner) throws IllegalArgumentException {
+        if (!(newOwner instanceof PhysicalPerson)) throw new IllegalArgumentException("Illegal Argument!");
+        super.setOwner(newOwner);
     }
 }

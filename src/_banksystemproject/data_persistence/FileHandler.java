@@ -7,17 +7,13 @@ public class FileHandler {
 
     private FileHandler(){}
 
-    public static boolean writeOver(String path, String information) {
-        if (path == null || information == null) return false;
-        try (FileOutputStream output = new FileOutputStream(path)) {
-            OutputStreamWriter writer = new OutputStreamWriter(output);
-            BufferedWriter buffer = new BufferedWriter(writer);
-            buffer.write(information);
-            buffer.close();
-            return true;
-        }catch(IOException e) {
-            return false;
-        }
+    public static void writeOver(String path, String information) throws IllegalArgumentException, FileNotFoundException, IOException {
+        if (path == null || information == null) throw new IllegalArgumentException("Invalid Arguments!");
+        FileOutputStream output = new FileOutputStream(path); //Can cause a FileNotFoundException to be thrown!
+        OutputStreamWriter writer = new OutputStreamWriter(output);
+        BufferedWriter buffer = new BufferedWriter(writer);
+        buffer.write(information); //Can cause an IOException to be thrown!
+        buffer.close(); //Can cause an IOException to be thrown!
     }
 
     public static boolean appendTo(String path, String information) {
@@ -70,28 +66,29 @@ public class FileHandler {
         }
     }
 
-    public static String getLine(String path, int number) {
-        if (path == null || !FileHandler.fileExists(path)) return null;
-        if (number < 0 || number >= FileHandler.fileSize(path)) return null;
-        try (Scanner fileScan = new Scanner(new File(path))) {
-            while (number > 0) {
-                fileScan.nextLine();
-                number --;
-            }
-            return fileScan.nextLine();
-        }catch(FileNotFoundException e) { return null; }
+    public static String getLine(String path, int number) throws IllegalArgumentException, FileNotFoundException {
+        if (path == null || number < 0 || number >= FileHandler.fileSize(path)) throw new IllegalArgumentException("Invalid Argument!");
+        Scanner fileScan = new Scanner(new File(path));
+        while (number > 0) {
+            fileScan.nextLine();
+            number --;
+        }
+        return fileScan.nextLine();
     }
 
-    public static int fileSize(String path) {
-        if (path == null || !FileHandler.fileExists(path)) return -1;
-        try {
-            Scanner fileScan = new Scanner(new File(path));
-            int counter = 0;
-            while (fileScan.hasNextLine()) {
-                counter++;
-                fileScan.nextLine();
-            }
-            return counter;
-        }catch(FileNotFoundException e) { return -1; }
+    public static int fileSize(String path) throws IllegalArgumentException, FileNotFoundException {
+        if (path == null) throw new IllegalArgumentException("Invalid Argument!");
+        Scanner fileScan = new Scanner(new File(path));
+        int counter = 0;
+        while (fileScan.hasNextLine()) {
+            counter++;
+            fileScan.nextLine();
+        }
+        fileScan.close();
+        return counter;
+    }
+
+    public static boolean fileIsEmpty(String path) throws IllegalArgumentException, FileNotFoundException {
+        return FileHandler.fileSize(path) == 0;
     }
 }

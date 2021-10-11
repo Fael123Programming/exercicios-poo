@@ -1,0 +1,1 @@
+{responsavel: {nome: Rafael Quintino Fonseca Guimaraes, data de nascimento: 2002-06-11, CPF: 064.854.071-54}, tipo: 1, numero: 12345, saldo atual: 12345.12, valor cheque especial: 0.0, agencia: CN-2022}

@@ -7,6 +7,7 @@ import java.util.*;
 
 public class TestHash {
     public static void main(String[] args) {
+        /*
         //Testing our hash methods.
         HashSet<Account> accounts = new HashSet<>();
         //A hash set does not permit equal objects to be added: it compares their hash codes!
@@ -21,6 +22,6 @@ public class TestHash {
         System.out.println("May c2 be added? " + accounts.add(c2));
         System.out.println("Does 'accounts' have c2? " + accounts.contains(c2));
         //In fact, account only has c1. The method above returns true because c1 and c2 are equal in our implementation.
-        System.out.println("Accounts' size: " + accounts.size());
+        System.out.println("Accounts' size: " + accounts.size());*/
     }
 }
