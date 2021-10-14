@@ -43,7 +43,7 @@ public abstract class Account implements Comparable<Account> {
     }
 
     public void deposit(double quantity) throws IllegalArgumentException {
-        if (quantity <= 0) throw new IllegalArgumentException("<<<<< Quantia inválida >>>>>");
+        if (quantity < 0) throw new IllegalArgumentException("<<<<< Quantia inválida >>>>>");
         this.currentBalance += quantity;
     }
 
@@ -144,6 +144,7 @@ public abstract class Account implements Comparable<Account> {
         info.append("Numero da conta: ").append(this.getAccountNumber()).append("\n");
         info.append("Tipo da conta: ").append(this.getType()).append("\n");
         info.append("Saldo atual: ").append(this.getCurrentBalance()).append("\n");
+        info.append("Agencia: ").append(this.getAgency()).append("\n");
         info.append("--------------------------------------------------------------------------");
         return info.toString();
     }

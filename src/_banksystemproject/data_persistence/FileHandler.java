@@ -21,7 +21,7 @@ public class FileHandler {
         try (FileOutputStream output = new FileOutputStream(path,true)) {
             OutputStreamWriter writer = new OutputStreamWriter(output);
             BufferedWriter buffer = new BufferedWriter(writer);
-            buffer.newLine();
+            if (!FileHandler.fileIsEmpty(path)) buffer.newLine();
             buffer.write(information);
             buffer.close();
         }catch(IOException e) {
@@ -91,4 +91,20 @@ public class FileHandler {
     public static boolean fileIsEmpty(String path) throws IllegalArgumentException, FileNotFoundException {
         return FileHandler.fileSize(path) == 0;
     }
+
+    /*public static boolean removeLine(String path, int line){
+        if(!FileHandler.fileExists(path)) return false;
+        try {
+            if (path == null || line < 0 || line >= FileHandler.fileSize(path)) return false;
+            Scanner fileScan = new Scanner(new File(path));
+            while (line > 0) {
+                fileScan.nextLine();
+                line--;
+            }
+            fileScan.
+            return true;
+        } catch(FileNotFoundException exception) {
+            return false;
+        }
+    }*/
 }

@@ -1,0 +1,2 @@
+{responsavel: {nome: Rafael Fonseca, data de nascimento: 2002-06-11, CPF: 111213123}, tipo: 1, numero: 1000, saldo atual: 0.00, valor cheque especial: 0.00, agencia: 007-JB}
+{responsavel: {nome: Eric Dourado, data de nascimento: 2000-05-11, CPF: 99988822}, tipo: 1, numero: 1001, saldo atual: 0.00, valor cheque especial: 0.00, agencia: 007-JB}
